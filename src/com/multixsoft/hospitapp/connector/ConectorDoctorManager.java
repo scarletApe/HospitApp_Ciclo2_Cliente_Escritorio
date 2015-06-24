@@ -16,6 +16,13 @@ import com.multixsoft.hospitapp.entities.Schedule;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import static com.multixsoft.hospitapp.connector.ConectorServicio.URL_BASE;
+import com.multixsoft.hospitapp.entities.Appointment;
+import com.multixsoft.hospitapp.entities.Patient;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 
 /**
  *
@@ -138,5 +145,175 @@ public class ConectorDoctorManager {
             e.printStackTrace();
         }
         return respuesta;
+    }
+    
+    
+    
+    /**
+     * Este metodo se encarga de inhabilitar a un doctor en el hospital, no lo
+     * elimina de la base de datos ya que implica eliminar antes todas sus relaciones
+     * y eso afectaria al momento de tratar de generar el historial. Primero cancela 
+     * todas las citas pendientes para el y despúes vuelve nulo el campo de doctor
+     * de todos los pacientes, además vuelve nulo el horario asignado y al final
+     * inhabilita al doctor.
+     * @param d corresponde al doctor a inhabilitar
+     * @return una variable booleana que indica si gue posible o no inhabilitar al
+     * doctor en el sistema
+     */
+    public boolean deleteDoctor(Doctor d){
+        ConectorScheduleManager csm = ConectorScheduleManager.getInstance();
+        List listAppointments = csm.getAllAppointmentsFor(d);
+        List listPatients = getPatientsFor(d);
+        //cancelar todas las citas pendientes del doctor
+        if(listAppointments != null){
+            for (Object a : listAppointments) {
+                Appointment tmp = (Appointment) a;
+                csm.cancelAppointment(tmp);
+            }
+        }
+        //Volver nula la variable de doctor en todos los pacientes de ese doctor
+        if(listPatients != null){
+                for (Object p : listPatients) {
+                    Patient tmp = (Patient) p;
+                    tmp.setDoctorUsername(null);
+                }
+        }
+        //Eliminar el horario del doctor
+            //Obtener Schedule a partir del username de un doctor
+        Schedule scheduleDoc = csm.getAvailableSchedule(d, true);
+            //Eliminar ese schedule
+        if(deleteScheduleOfDoctor(scheduleDoc)){
+            //Modificar la variable de isActive del doctor
+            if(setInactiveDoctor(d)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Este metodo obtiene todos los pacientes de la base de datos que correspondan 
+     * a un doctor en particular
+     * @param d corresponde al medico del que se desean obtener los pacientes
+     * @return una lista que contiene todos los pacientes del medico en específico
+     */
+    private List<Patient> getPatientsFor(Doctor d){
+        ConectorScheduleManager csm = ConectorScheduleManager.getInstance();
+        List<Patient> patients = null;
+        try{
+        String urlBusqueda = URL_BASE + "doctormanager/patientsfor?"+
+                URLEncoder.encode(d.getUsername(),"UTF-8");
+        URL url = new URL(urlBusqueda);
+        HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Accept", "text/plain");
+            int codigo = conexion.getResponseCode();
+            if (codigo == HttpURLConnection.HTTP_OK) {
+                InputStream is = conexion.getInputStream();
+                BufferedReader entrada = new BufferedReader(new InputStreamReader(is));
+                String respuesta = entrada.readLine();
+                Object objectPatients = JSONValue.parse(respuesta);
+                JSONArray patientsList = (JSONArray) objectPatients;
+                patients = new ArrayList<Patient>();
+                for (Object elem : patientsList) {
+                    JSONObject patientJson = (JSONObject) elem;
+                    Patient patient = new Patient();
+                    patient.setNss((String)patientJson.get("nss"));
+                    patient.setPassword((String)patientJson.get("password"));
+                    patient.setFirstName((String)patientJson.get("firstName"));
+                    patient.setAddress((String)patientJson.get("address"));
+                    patient.setIsActive((Boolean)patientJson.get("isActive"));
+                    patient.setDoctorUsername(doctorFromJson((JSONObject)patientJson.get("doctorUsername")));
+                    patients.add(patient);
+                }
+                entrada.close();
+            }
+        }catch(UnsupportedEncodingException uee){
+                uee.printStackTrace();
+        }catch(MalformedURLException murle){
+            murle.printStackTrace();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        return patients;
+    }
+    
+    /**
+     * Este metodo obtiene una variable de tipo Doctor desde un objeto JSON
+     * @param doctorJson corresponde a la variable JSON que contiene al Doctor
+     * @return una variable de tipo Doctor con la información de un Doctor
+     */
+    private Doctor doctorFromJson(JSONObject doctorJson) {
+        Doctor doctor = new Doctor();
+        if (doctorJson != null) {
+            doctor.setUsername(doctorJson.get("username").toString());
+            doctor.setFirstName(doctorJson.get("firstName").toString());
+            doctor.setLastName(doctorJson.get("lastName").toString());
+            doctor.setPassword(doctorJson.get("password").toString());
+            doctor.setLicense(doctorJson.get("license").toString());
+
+            if (doctorJson.get("specialty") != null) {
+                doctor.setSpecialty(doctorJson.get("specialty").toString());
+            }
+        }
+        return doctor;
+    }
+    
+    
+    /**
+     * Este metodo permite eliminar la relacion de un horario con un doctor
+     * @param schedule crresponde al horario que se eliminará
+     * @return una variable booleana que indica si el horario se puedo eliminar o no
+     */
+    private boolean deleteScheduleOfDoctor(Schedule schedule){
+        boolean resultado = false;
+        try{
+            String urlServicio = URL_BASE + 
+                    "doctormanager/removescheduleofdoctor?schedule="+schedule.getIdSchedule();
+            URL url = new URL(urlServicio);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Accept", "text/plain");
+            int codigo = conexion.getResponseCode();
+            if (codigo == HttpURLConnection.HTTP_OK) {
+                InputStream is = conexion.getInputStream();
+                BufferedReader entrada = new BufferedReader(new InputStreamReader(is));
+                String respuesta = entrada.readLine();
+                entrada.close();
+                if(respuesta.contains("t")){
+                    resultado = true;
+                }
+            }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        return resultado;
+    }
+    
+    /**
+     * Este metodo se encarga de hacer que un doctor esté inactivo en el hospital
+     * @param d representa al doctor que se volverá inactivo
+     * @return  una variable booleana que indica si se pudo realizar la acción o no
+     */
+    private boolean setInactiveDoctor(Doctor d){
+        boolean resultado = false;
+        try{
+            String urlServicio = URL_BASE + 
+                    "doctormanager/makedoctorinactive?doctor" + d.getUsername();
+            URL url = new URL(urlServicio);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Accept", "text/plain");
+            int codigo = conexion.getResponseCode();
+            if (codigo == HttpURLConnection.HTTP_OK) {
+                InputStream is = conexion.getInputStream();
+                BufferedReader entrada = new BufferedReader(new InputStreamReader(is));
+                String respuesta = entrada.readLine();
+                entrada.close();
+                if(respuesta.contains("t")){
+                    resultado = true;
+                }
+            }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+        return resultado;
     }
 }

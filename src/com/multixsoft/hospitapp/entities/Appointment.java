@@ -116,13 +116,15 @@ public class Appointment {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("Paciente: ").append(patientNss).append("  Hora de la cita: ").append(time).append(":" + "00 ");
-        if (!iscanceled) {
-            s.append((isFinished) ? "Cita Concuida" : "Cita Activa");
-        }
-        s.append((iscanceled) ? " La cita fue cancelada" : "");
-        return s.toString();
+//        StringBuilder s = new StringBuilder();
+//        s.append("Paciente: ").append(patientNss).append("  Hora de la cita: ").append(time).append(":" + "00 ");
+//        if (!iscanceled) {
+//            s.append((isFinished) ? "Cita Concuida" : "Cita Activa");
+//        }
+//        s.append((iscanceled) ? " La cita fue cancelada" : "");
+//        return s.toString();
+        String active = iscanceled?"Su cita se encuentra vigente":"Su cita ha sido cancelada";
+        return "Folio:" + idAppointment + "\nFecha:" + date + "\nHora:" + time + "\n" + active;
     }
 
 }

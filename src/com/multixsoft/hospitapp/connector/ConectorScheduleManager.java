@@ -589,4 +589,36 @@ public class ConectorScheduleManager {
         }
         return day + "/" + month + "/" + date.getYear();
     }
+    
+    //Mi metodo nuevo (Ivan)
+    public boolean notificateChange(Appointment appointment) {
+        boolean result = false;
+        try {
+            String path = URL_BASE + "schedulemanager/notificatechange?appointment=" 
+                    + (appointment.getIdAppointment().toString());
+            url = new URL(path);
+            conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Accept", "text/plain");
+
+            int code = conexion.getResponseCode();
+            if (code == HttpURLConnection.HTTP_OK) {
+                InputStream input = conexion.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(input));
+                String answer = buffer.readLine();
+                result = answer.equalsIgnoreCase("true");
+                buffer.close();
+            }
+
+        } 
+        catch (MalformedURLException e) {
+            System.err.println(e);
+            e.printStackTrace();
+
+        } 
+        catch (IOException ioe) {
+            System.err.println(ioe);
+            ioe.printStackTrace();
+        }
+        return result;
+    }
 }
