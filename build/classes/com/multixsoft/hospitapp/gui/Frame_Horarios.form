@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jToggleButton5"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton70">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton71">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton72">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JToggleButton" name="jToggleButton73">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+      </Properties>
+    </Component>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Horarios"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="jButtonSelectAll" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButtonUnselectAll" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jButtonAceptar" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jButtonAceptar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonSelectAll" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonUnselectAll" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel12" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="22" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel2" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel11" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel10" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel13" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel12" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Lunes"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTBLun11" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun13" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun10" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun14" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun15" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBLun8" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTBLun16" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBLun17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBLun18" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBLun19" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun10" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun12" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun13" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun14" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun16" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBLun19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="19" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JToggleButton" name="jTBLun8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="8:00-9:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="9:00-10:00"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTBLun9ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10:00-11:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="11:00-12:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun12">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="12:00-13:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="13:00-14:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="14:00-15:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="15:00-16:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBLun19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel6">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Martes"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel10">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTBMar11" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar13" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar10" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar14" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar15" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMar8" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTBMar16" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMar17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMar18" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMar19" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar10" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar12" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar13" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar14" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar16" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMar19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JToggleButton" name="jTBMar8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="8:00-9:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="9:00-10:00"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTBMar9ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10:00-11:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="11:00-12:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar12">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="12:00-13:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="13:00-14:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="14:00-15:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="15:00-16:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMar17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Miercoles"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel11">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTBMie11" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie13" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie10" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie14" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie15" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBMie8" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTBMie16" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMie17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMie18" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBMie19" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie10" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie12" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie13" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie14" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie16" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBMie19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JToggleButton" name="jTBMie8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="8:00-9:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="9:00-10:00"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTBMie9ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10:00-11:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="11:00-12:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie12">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="12:00-13:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="13:00-14:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="14:00-15:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="15:00-16:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBMie17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel8">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Jueves"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel12">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTBJue11" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue13" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue10" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue14" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue15" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBJue8" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTBJue16" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBJue17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBJue18" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBJue19" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue10" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue12" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue13" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue14" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue16" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBJue19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JToggleButton" name="jTBJue8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="8:00-9:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="9:00-10:00"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTBJue9ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10:00-11:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="11:00-12:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue12">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="12:00-13:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="13:00-14:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="14:00-15:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="15:00-16:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lunes"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBJue17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JLabel" name="jLabel10">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Viernes"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JPanel" name="jPanel13">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                <EtchetBorder/>
+              </Border>
+            </Property>
+          </Properties>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTBVie11" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie12" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie13" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie10" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie14" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie15" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jTBVie8" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTBVie16" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBVie17" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBVie18" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTBVie19" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie8" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie9" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie10" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie11" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie12" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie13" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie14" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie15" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie16" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie17" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie18" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTBVie19" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JToggleButton" name="jTBVie8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="8:00-9:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie9">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="9:00-10:00"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTBVie9ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie10">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10:00-11:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="11:00-12:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie12">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="12:00-13:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="13:00-14:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="14:00-15:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie15">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="15:00-16:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lunes"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie18">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="18:00-19:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie19">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="19:00-20:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie16">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="16:00-17:00"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JToggleButton" name="jTBVie17">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="17:00-18:00"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="jButtonAceptar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Aceptar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAceptarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonSelectAll">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Seleccionar Todos"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSelectAllActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButtonUnselectAll">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Deseleccionar Todos"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonUnselectAllActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
