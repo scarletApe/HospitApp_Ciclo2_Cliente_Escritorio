@@ -5,6 +5,7 @@
  */
 package com.multixsoft.hospitapp.gui;
 
+import com.multixsoft.hospitapp.connector.ConectorDoctorManager;
 import com.multixsoft.hospitapp.connector.ConectorServicio;
 import com.multixsoft.hospitapp.entities.Patient;
 import java.util.List;
@@ -13,11 +14,13 @@ import javax.swing.ListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import com.multixsoft.hospitapp.connector.ConectorPatientManager;
+import com.multixsoft.hospitapp.connector.ConectorPrivacyControl;
 import com.multixsoft.hospitapp.entities.Doctor;
 import com.multixsoft.hospitapp.utilities.FixedSizeAlphaNumericDocument;
 import com.multixsoft.hospitapp.utilities.FixedSizeAlphabeticalDocument;
 import com.multixsoft.hospitapp.utilities.FixedSizeEmailDocument;
 import com.multixsoft.hospitapp.utilities.FixedSizeNumberDocument;
+import com.multixsoft.hospitapp.utilities.JPanes;
 import com.multixsoft.hospitapp.utilities.Validator;
 import java.awt.Color;
 import javax.swing.JOptionPane;
@@ -50,7 +53,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
 
         //Lista de pacientes
         actualizarListaPacientes();
-        
+
         limpiarCampos();
 
     }
@@ -76,8 +79,8 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         jTextFieldEmail.setText("");
         jToggleButtonActividad.setSelected(false);
         jToggleButtonActividad.setText("Inactivo");
-//        jButtonEliminarPaciente.setEnabled(false);
-//        jButtonModificarPaciente.setEnabled(false);
+        jButtonEliminarPaciente.setEnabled(false);
+        jButtonModificarPaciente.setEnabled(false);
 
 //        jLabelErrorMsg.setText(" ");
         jLabel_Error_Nombre.setText(" ");
@@ -85,7 +88,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         jLabel_Error_Nss.setText(" ");
         jLabel_Error_Email.setText(" ");
         jLabel_Error_Password.setText(" ");
-        
+
         jLabel_Error_Nombre.setForeground(Color.red);
         jLabel_Error_Apellido.setForeground(Color.red);
         jLabel_Error_Nss.setForeground(Color.red);
@@ -371,7 +374,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                 Validator val = Validator.getInstance();
 
                 if (existeNSS(nss)) {
-                    JOptionPane.showMessageDialog(null, "Verifica el NSS...", "Error", JOptionPane.ERROR_MESSAGE);
+                    JPanes.getInstance().msgPane( "Verifica el NSS...");
                     return;
                 }
 
@@ -387,39 +390,43 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                         && isValid_email
                         && isValid_password) {
                     
-                    Patient patient = new Patient(nss, password, firstName, lastName, address, isActive);
+                    ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
+                    byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
+                    String pass = pc.bytesToString(encrypted);
+
+                    Patient patient = new Patient(nss, pass, firstName, lastName, address, isActive);
                     ConectorPatientManager conectorPatient = ConectorPatientManager.getInstance();
                     String saveNewPatient = conectorPatient.saveNewPatient(patient);
 
                     if (saveNewPatient != null) {
-                        JOptionPane.showMessageDialog(null, "El paciente fue creado exitosamente. ", "Paciente", JOptionPane.INFORMATION_MESSAGE);
+                        JPanes.getInstance().msgPane( "El paciente fue creado exitosamente. ");
                         limpiarCampos();
                         actualizarListaPacientes();
                     } else {
-                        JOptionPane.showMessageDialog(null, "No se pudo crear el Paciente...", "Error", JOptionPane.ERROR_MESSAGE);
+                        JPanes.getInstance().errorPane( "No se pudo crear el Paciente...");
                     }
                 } else {
                     if (!isValid_Nombre) {
                         jLabel_Error_Nombre.setText("El nombre debe contener más de 2 caracteres y empezar con una mayúscula.");
-                    }else{
+                    } else {
                         jLabel_Error_Nombre.setText(" ");
                     }
 
                     if (!isValid_Apellido) {
                         jLabel_Error_Apellido.setText("El apellido debe contener más de 2 caracteres y empezar con una mayúscula.");
-                    }else{
+                    } else {
                         jLabel_Error_Apellido.setText(" ");
                     }
 
                     if (!isValid_nss) {
                         jLabel_Error_Nss.setText("El NSS debe tener 11 dígitos y opcionalmente un guión.");
-                    }else{
+                    } else {
                         jLabel_Error_Nss.setText(" ");
                     }
 
                     if (!isValid_email) {
                         jLabel_Error_Email.setText("El e-mail debe tener el siguiente formato 'correo@ejemplo.com'");
-                    }else{
+                    } else {
                         jLabel_Error_Email.setText(" ");
                     }
 
@@ -428,7 +435,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                         if (password.length() < 8) {
                             jLabel_Error_Password.setText("La contraseña debe tener mínimo 8 caracteres.");
                         }
-                    }else{
+                    } else {
                         jLabel_Error_Password.setText(" ");
                     }
                 }
@@ -465,8 +472,12 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                     && !lastName.isEmpty()
                     && !address.isEmpty()
                     && !password.isEmpty()) {
+                
+                ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
+                byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
+                String pass = pc.bytesToString(encrypted);
 
-                Patient p = new Patient(selectedPatient.getNss(), password, firstName, lastName, address, isActive);
+                Patient p = new Patient(selectedPatient.getNss(), pass, firstName, lastName, address, isActive);
                 p.setDoctorUsername(selectedPatient.getDoctorUsername());
                 ConectorServicio servidor = ConectorServicio.getInstance();
                 servidor.updatePatient(p);
@@ -488,12 +499,25 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         DefaultListModel modelo = (DefaultListModel) jListPacientes.getModel();
         int indice = jListPacientes.getSelectedIndex();
         if (indice != -1) {
-            Patient cSel = (Patient) modelo.getElementAt(indice);
-            ConectorServicio servidor = ConectorServicio.getInstance();
-            servidor.eliminarPatient(cSel.getNss());
+            Patient pac = (Patient) modelo.getElementAt(indice);
 
-            //del modelo quitar paciente 
-            modelo.remove(indice);
+            int n = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar a " + pac.toString() + " ?", "Confirmación",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                ConectorServicio servidor = ConectorServicio.getInstance();
+                servidor.eliminarPatient(pac.getNss());
+//                ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
+//                boolean deleted = dm.deleteDoctor(doc);
+//                if(deleted){
+//                    msgPane("El Médico se elimino con exito.");
+//                }else{
+//                    errorPane("El Médico no se pudo eliminar");
+//                }
+            } else if (n == JOptionPane.NO_OPTION) {
+                //JOptionPane.showMessageDialog(null, "Continueando...");
+            } else {
+                //JOptionPane.showMessageDialog(null, "Continueando...");
+            }
 
 //            jButtonEliminarPaciente.setEnabled(false);
 //            jButtonModificarPaciente.setEnabled(false);
@@ -521,11 +545,11 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
             if (e.getValueIsAdjusting() == false) {
                 int indice = jListPacientes.getSelectedIndex();
                 if (indice == -1) {
-//                    jButtonEliminarPaciente.setEnabled(false);
-//                    jButtonModificarPaciente.setEnabled(false);
+                    jButtonEliminarPaciente.setEnabled(false);
+                    jButtonModificarPaciente.setEnabled(false);
                 } else {
-//                    jButtonEliminarPaciente.setEnabled(true);
-//                    jButtonModificarPaciente.setEnabled(true);
+                    jButtonEliminarPaciente.setEnabled(true);
+                    jButtonModificarPaciente.setEnabled(true);
 
                     ListModel modelo = jListPacientes.getModel();
                     Patient cSel = (Patient) modelo.getElementAt(indice);
@@ -557,26 +581,6 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
             if (d.getNss().equalsIgnoreCase(un)) {
                 return true;
             }
-        }
-        return false;
-    }
-
-    private boolean esValidoElEmail(String e) {
-        int coutarrova = 0;
-        for (int i = 0; i < e.length(); i++) {
-            if (e.charAt(i) == '@') {
-                coutarrova++;
-            }
-        }
-        if (coutarrova == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean esValidoNSS(String ns) {
-        if (ns.length() >= 11) {
-            return true;
         }
         return false;
     }

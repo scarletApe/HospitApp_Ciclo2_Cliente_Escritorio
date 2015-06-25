@@ -6,11 +6,13 @@
 package com.multixsoft.hospitapp.gui;
 
 import com.multixsoft.hospitapp.connector.ConectorDoctorManager;
+import com.multixsoft.hospitapp.connector.ConectorPrivacyControl;
 import com.multixsoft.hospitapp.connector.ConectorServicio;
 import com.multixsoft.hospitapp.entities.Doctor;
 import com.multixsoft.hospitapp.entities.Schedule;
 import com.multixsoft.hospitapp.utilities.FixedSizeAlphaNumericDocument;
 import com.multixsoft.hospitapp.utilities.FixedSizeAlphabeticalDocument;
+import com.multixsoft.hospitapp.utilities.JPanes;
 import com.multixsoft.hospitapp.utilities.Validator;
 import java.awt.Color;
 import java.util.List;
@@ -91,6 +93,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
         jLabel_Error_Espec.setForeground(Color.red);
         jLabel_Error_Username.setForeground(Color.red);
         jLabel_Error_Password.setForeground(Color.red);
+
     }
 
     /**
@@ -422,7 +425,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                     && !password.isEmpty()) {
 
                 if (existeUsername(username)) {
-                    errorPane("El Nombre de Usuario no está disponible: " + username);
+                    JPanes.getInstance().errorPane("El Nombre de Usuario no está disponible: " + username);
                     return;
                 }
 
@@ -439,7 +442,11 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                         && isValid_Apellido
                         && isValid_password) {
 
-                    Doctor doctor = new Doctor(username, password, firstName, lastName, license);
+                    ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
+                    byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
+                    String pass = pc.bytesToString(encrypted);
+
+                    Doctor doctor = new Doctor(username, pass, firstName, lastName, license);
                     doctor.setSpecialty(specialty);
 
                     ConectorDoctorManager conectorDoctor = ConectorDoctorManager.getInstance();
@@ -447,7 +454,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                     actualizarListDoctores();
 
                     if (saveNewDoctor != null) {
-                        msgPane("Se creó el Médico con éxito.");
+                        JPanes.getInstance().msgPane("Se creó el Médico con éxito.");
 
                         //asignarle un schedule vacio al doctor nuevo
                         long id = (long) (Math.random() * 100000);
@@ -462,13 +469,14 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                         ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
                         String setSchedule = dm.setSchedule(sch);
                         if (setSchedule != null) {
-                            msgPane("Se le asigno un Horario vacío al Médico.");
+                            JPanes.getInstance().msgPane("Se le asigno un Horario vacío al Médico.");
                         } else {
-                            errorPane("No se le pudo asignar un Horario al Médico.");
+                            JPanes.getInstance().errorPane("No se le pudo asignar un Horario al Médico.");
                         }
                         limpiar();
+                        actualizarListDoctores();
                     } else {
-                        errorPane("El Médico no se pudo crear...");
+                        JPanes.getInstance().errorPane("El Médico no se pudo crear...");
 
                     }
                 } else {
@@ -503,11 +511,129 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonCrearActionPerformed
 
     private void jButtonActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarActionPerformed
-        // TODO add your handling code here:
+        String username = jTextFieldUsername.getText();
+        String password = new String(jPasswordField1.getPassword());
+        String firstName = jTextFieldNombre.getText();
+        String lastName = jTextFieldApellidos.getText();
+        String license = jTextFieldLicencia.getText();
+        String specialty = jTextFieldEspecialidad.getText();
+
+        boolean isValid_Nombre = false;
+        boolean isValid_Apellido = false;
+//        boolean isValid_Licencia = false;
+//        boolean isValid_Especialidad = false;
+//        boolean isValid_Username = false;
+        boolean isValid_password = false;
+
+        if (username != null
+                && firstName != null
+                && lastName != null
+                && license != null
+                && specialty != null) {
+
+            if (!username.isEmpty()
+                    && !firstName.isEmpty()
+                    && !lastName.isEmpty()
+                    && !license.isEmpty()
+                    && !specialty.isEmpty()) {
+
+                if (password.isEmpty()) {
+                    password = selectedDoctor.getPassword();
+                }
+
+//                Validator val = Validator.getInstance();
+//
+//                isValid_Nombre = val.isValidFirstName(firstName);
+//                isValid_Apellido = val.isValidLastName(lastName);
+//                isValid_password = val.isValidPassword(password);
+//
+//                if (isValid_Nombre
+//                        && isValid_Apellido
+//                        && isValid_password) {
+//
+//                    Doctor doctor = new Doctor(username, password, firstName, lastName, license);
+//                    doctor.setSpecialty(specialty);
+//
+//                    ConectorDoctorManager conectorDoctor = ConectorDoctorManager.getInstance();
+//                    boolean actualizar = conectorDoctor.(doctor);
+//                    actualizarListDoctores();
+//
+//                    if (actualizar) {
+//                        msgPane("Se actualizó el Médico con éxito.");
+//
+//                    } else {
+//                        errorPane("El Médico no se pudo actualizar...");
+//
+//                    }
+//                } else {
+//                    if (!isValid_Nombre) {
+//                        jLabel_Error_Nombre.setText("El nombre debe contener más de 2 caracteres y empezar con una mayúscula.");
+//                    } else {
+//                        jLabel_Error_Nombre.setText(" ");
+//                    }
+//
+//                    if (!isValid_Apellido) {
+//                        jLabel_Error_Apellido.setText("El apellido debe contener más de 2 caracteres y empezar con una mayúscula.");
+//                    } else {
+//                        jLabel_Error_Apellido.setText(" ");
+//                    }
+//
+//                    if (!isValid_password) {
+//                        jLabel_Error_Password.setText("La contraseña debe combinar mayúsculas, minúsculas y números.");
+//                        if (password.length() < 8) {
+//                            jLabel_Error_Password.setText("La contraseña debe tener mínimo 8 caracteres.");
+//                        }
+//                    } else {
+//                        jLabel_Error_Password.setText(" ");
+//                    }
+//                }
+                ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
+                byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
+                String pass = pc.bytesToString(encrypted);
+
+                Doctor doctor = new Doctor(selectedDoctor.getUsername(), pass, firstName, lastName, license);
+                doctor.setSpecialty(specialty);
+
+                ConectorServicio conectorServicio = ConectorServicio.getInstance();
+                conectorServicio.updateDoctor(doctor);
+                //TODO
+                actualizarListDoctores();
+
+//                limpiar();
+            } else {
+                jLabel_Error_Nombre.setText("* Todo Campo debe de tener un dato");
+                jLabel_Error_Nombre.setForeground(Color.red);
+            }
+        } else {
+            jLabel_Error_Nombre.setText("* Todo Campo debe de tener un dato");
+            jLabel_Error_Nombre.setForeground(Color.red);
+        }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
+        ListModel modelo = jListDoctores.getModel();
+        int indice = jListDoctores.getSelectedIndex();
+        if (indice != -1) {
+            Doctor doc = (Doctor) modelo.getElementAt(indice);
+
+            int n = JOptionPane.showConfirmDialog(
+                    null, "¿Esta seguro de eliminar a " + doc.toString() + " ?", "Confirmación",
+                    JOptionPane.YES_NO_OPTION);
+            if (n == JOptionPane.YES_OPTION) {
+                ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
+                boolean deleted = dm.deleteDoctor(doc);
+                if (deleted) {
+                    JPanes.getInstance().msgPane("El Médico se elimino con exito.");
+                } else {
+                    JPanes.getInstance().errorPane("El Médico no se pudo eliminar");
+                }
+            } else if (n == JOptionPane.NO_OPTION) {
+                //JOptionPane.showMessageDialog(null, "Continueando...");
+            } else {
+                //JOptionPane.showMessageDialog(null, "Continueando...");
+            }
+
+        }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimpiarActionPerformed
@@ -534,13 +660,15 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
             for (int i = 0; i < allFrames.length; i++) {
                 JInternalFrame frame = allFrames[i];
                 String name = frame.getName();
-                if (name.equalsIgnoreCase("verCitas")) {
-                    frame.moveToFront();
-                    return;
+                if (name != null) {
+                    if (name.equalsIgnoreCase("verCitas")) {
+                        frame.moveToFront();
+                        return;
+                    }
                 }
             }
 
-            JIF_VerCItas verCitas = new JIF_VerCItas(doc);
+            JIF_VerCItas verCitas = new JIF_VerCItas(doc, desk);
             verCitas.setName("verCitas");
             verCitas.setVisible(true);
             desk.add(verCitas);
@@ -561,9 +689,11 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
             for (int i = 0; i < allFrames.length; i++) {
                 JInternalFrame frame = allFrames[i];
                 String name = frame.getName();
-                if (name.equalsIgnoreCase("proximasCitas")) {
-                    frame.moveToFront();
-                    return;
+                if (name != null) {
+                    if (name.equalsIgnoreCase("proximasCitas")) {
+                        frame.moveToFront();
+                        return;
+                    }
                 }
             }
 
@@ -576,14 +706,6 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
             proximasCitas.moveToFront();
         }
     }//GEN-LAST:event_jButtonCitasProgramadasActionPerformed
-
-    public void errorPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void msgPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     private class ManejadorListaDoctores implements ListSelectionListener {
 

@@ -89,6 +89,7 @@ public class ConectorPatientDataRecorder{
         reportMap.put("appointment", Long.toString(r.getIdAppointment().getIdAppointment()));
         JSONObject reportJSON = new JSONObject(reportMap);
         String datosReporte = reportJSON.toJSONString();
+        System.out.println("Debug: datosReporte="+datosReporte);
         try{
             String cadena = URL_BASE + "patientdatarecorder/savereport?report=" 
                     + datosReporte;

@@ -9,6 +9,7 @@ import com.multixsoft.hospitapp.connector.ConectorPatientMapper;
 import com.multixsoft.hospitapp.connector.ConectorServicio;
 import com.multixsoft.hospitapp.entities.Doctor;
 import com.multixsoft.hospitapp.entities.Patient;
+import com.multixsoft.hospitapp.utilities.JPanes;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -182,13 +183,13 @@ public class JIF_AsignarPaciente extends javax.swing.JInternalFrame {
             ConectorPatientMapper pm = ConectorPatientMapper.getInstance();
             boolean mapPatient = pm.mapPatient(pat, doc);
             if (mapPatient) {
-                JOptionPane.showMessageDialog(this, "Se asignó el paciente al doctor.");
+                JPanes.getInstance().msgPane( "Se asignó el paciente al doctor.");
                 jListDoctores.setSelectedIndex(-1);
                 jListPacientes.setSelectedIndex(-1);
                 jButtonAsignar.setEnabled(false);
                 llenarListas();
             } else {
-                JOptionPane.showMessageDialog(this, "Hubo un problema en asignar el paciente al doctor.");
+                JPanes.getInstance().errorPane("Hubo un problema en asignar el paciente al doctor.");
             }
         }
 

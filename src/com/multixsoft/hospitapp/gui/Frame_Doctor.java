@@ -90,6 +90,7 @@ public class Frame_Doctor extends javax.swing.JFrame {
         jToolBarPacientes = new javax.swing.JToolBar();
         jButtonVerCitas = new javax.swing.JButton();
         jButtonProximasCitas = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -107,7 +108,7 @@ public class Frame_Doctor extends javax.swing.JFrame {
         jToolBarPacientes.setRollover(true);
 
         jButtonVerCitas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/resources/icon-people4.png"))); // NOI18N
-        jButtonVerCitas.setText("          Ver Citas           ");
+        jButtonVerCitas.setText("       Citas del Día       ");
         jButtonVerCitas.setFocusable(false);
         jButtonVerCitas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonVerCitas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -119,7 +120,7 @@ public class Frame_Doctor extends javax.swing.JFrame {
         jToolBarPacientes.add(jButtonVerCitas);
 
         jButtonProximasCitas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/resources/icon-write.png"))); // NOI18N
-        jButtonProximasCitas.setText("  Citas Programadas ");
+        jButtonProximasCitas.setText("     Proximas Citas    ");
         jButtonProximasCitas.setFocusable(false);
         jButtonProximasCitas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonProximasCitas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -130,11 +131,23 @@ public class Frame_Doctor extends javax.swing.JFrame {
         });
         jToolBarPacientes.add(jButtonProximasCitas);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/icon-clipboard.png"))); // NOI18N
+        jButton2.setText("   Administrar Citas  ");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBarPacientes.add(jButton2);
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 842, Short.MAX_VALUE)
+            .addGap(0, 844, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +252,7 @@ public class Frame_Doctor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonVerCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerCitasActionPerformed
-        verCitas = new JIF_VerCItas(doctor);
+        verCitas = new JIF_VerCItas(doctor,jDesktopPane1);
         jDesktopPane1.add(verCitas);
         
         verCitas.show();
@@ -257,6 +270,14 @@ public class Frame_Doctor extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         showConfirmacion();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JIF_ABC_Cita abcCita = new JIF_ABC_Cita(doctor, jDesktopPane1);
+        jDesktopPane1.add(abcCita);
+        
+        abcCita.show();
+        abcCita.moveToFront();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,6 +337,7 @@ public class Frame_Doctor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonProximasCitas;
     private javax.swing.JButton jButtonVerCitas;
     public static javax.swing.JDesktopPane jDesktopPane1;

@@ -5,7 +5,6 @@
  */
 package com.multixsoft.hospitapp.gui;
 
-
 import com.multixsoft.hospitapp.connector.ConectorScheduleManager;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -29,27 +28,25 @@ public class JIF_ProximasCitas extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameVerCItas
      */
-    
     TableRowSorter sorter;
     ConectorServicio conectorServicio;
     private ConectorScheduleManager con;
+
     public JIF_ProximasCitas(Doctor doctor) {
         initComponents();
-        
-        
-    /**
-     * Creates new form ProximasCitas
-     */
-    
+
+        this.setName("proximasCitas");
+        /**
+         * Creates new form ProximasCitas
+         */
         conectorServicio = ConectorServicio.getInstance();
         cargarDatosTabla(doctor);
-        jText_busqueda.getDocument().addDocumentListener(new DocumentListener(){
+        jText_busqueda.getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
             public void insertUpdate(DocumentEvent de) {
-               filtrarBusqueda();
+                filtrarBusqueda();
             }
-            
 
             @Override
             public void removeUpdate(DocumentEvent de) {
@@ -58,19 +55,19 @@ public class JIF_ProximasCitas extends javax.swing.JInternalFrame {
 
             @Override
             public void changedUpdate(DocumentEvent de) {
-               filtrarBusqueda();
+                filtrarBusqueda();
             }
 
-           
-                     
         });
+
+        this.setTitle("Proximas Citas de " + doctor.toString());
     }
-    
-    private void filtrarBusqueda(){
-        RowFilter<TableModel,Object> filtro = null;
+
+    private void filtrarBusqueda() {
+        RowFilter<TableModel, Object> filtro = null;
         int indiceColumnaTabla = 0;
-        
-        switch(jComboBox_opciones.getSelectedIndex()){
+
+        switch (jComboBox_opciones.getSelectedIndex()) {
             case 0:
                 indiceColumnaTabla = 1;
                 break;
@@ -78,57 +75,57 @@ public class JIF_ProximasCitas extends javax.swing.JInternalFrame {
                 indiceColumnaTabla = 2;
                 break;
             case 2:
-                indiceColumnaTabla = 3;                
+                indiceColumnaTabla = 3;
                 break;
             case 3:
-                indiceColumnaTabla=4;
+                indiceColumnaTabla = 4;
                 break;
             case 4:
-                indiceColumnaTabla=5;
+                indiceColumnaTabla = 5;
                 break;
         }
-        
-        try{
+
+        try {
             filtro = RowFilter.regexFilter(jText_busqueda.getText(), indiceColumnaTabla);
-        
-        }catch(java.util.regex.PatternSyntaxException e){
+
+        } catch (java.util.regex.PatternSyntaxException e) {
             e.printStackTrace();
         }
         sorter.setRowFilter(filtro);
     }
-    
-    private void cargarDatosTabla(Doctor doctor){
-         //Obtener datos de citas
+
+    private void cargarDatosTabla(Doctor doctor) {
+        //Obtener datos de citas
 //        conectorServicio = ConectorServicio.getInstance();
         con = ConectorScheduleManager.getInstance();
 //        List<Appointment> listaCitas = conectorServicio.obtenerListaAppointment();
         List<Appointment> listaCitas = con.getAllAppointmentsFor(doctor);
         System.err.println(listaCitas.toString());
-        
+
         int sizeListaCitas = listaCitas.size();
-        String[] titulosColumnas = {"ID","NSS","NOMBRE","APELLIDO PATERNO","FECHA"};
+        String[] titulosColumnas = {"ID", "NSS", "NOMBRE", "APELLIDO PATERNO", "FECHA"};
         Object[][] tempJTable = new Object[sizeListaCitas][titulosColumnas.length];
-        
+
         int i = 0;
-        if(sizeListaCitas !=0 ){
-            for(Appointment appointment : listaCitas){
-                tempJTable[i][0]= appointment.getIdAppointment();
-                tempJTable[i][1]= appointment.getPatientNss().getNss();
-                tempJTable[i][2]=appointment.getPatientNss().getFirstName();
-                tempJTable[i][3]=appointment.getPatientNss().getLastName();
-                tempJTable[i][4]= appointment.getDate();
+        if (sizeListaCitas != 0) {
+            for (Appointment appointment : listaCitas) {
+                tempJTable[i][0] = appointment.getIdAppointment();
+                tempJTable[i][1] = appointment.getPatientNss().getNss();
+                tempJTable[i][2] = appointment.getPatientNss().getFirstName();
+                tempJTable[i][3] = appointment.getPatientNss().getLastName();
+                tempJTable[i][4] = appointment.getDate();
                 i++;
             }
         }
-        
+
         DefaultTableModel tableModel = new DefaultTableModel(tempJTable, titulosColumnas);
 
         jTable1.setModel(tableModel);
-         sorter = new TableRowSorter<TableModel>(tableModel);
+        sorter = new TableRowSorter<TableModel>(tableModel);
         jTable1.setRowSorter(sorter);
 
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
     }
 //    private void cargarDatosTabla(){
 //         //Obtener datos de citas

@@ -101,7 +101,9 @@ public class Report {
 
     @Override
     public String toString() {
-        return "multixsoft.hospitapp.entities.Report[ idReport=" + idReport + " ]";
+        return "Report{" + "idReport=" + idReport + ", description=" + description + ", medicine=" + medicine + ", indications=" + indications + ", patientNss=" + patientNss + ", idAppointment=" + idAppointment + '}';
     }
+
+    
     
 }

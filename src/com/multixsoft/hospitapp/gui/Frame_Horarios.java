@@ -12,6 +12,7 @@ import com.multixsoft.hospitapp.entities.Schedule;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import com.multixsoft.hospitapp.utilities.IntervalFilter;
+import com.multixsoft.hospitapp.utilities.JPanes;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JButton;
@@ -832,9 +833,9 @@ public class Frame_Horarios extends javax.swing.JFrame {
         String setSchedule = dm.setSchedule(sch);
         if (setSchedule == null) {
             System.out.println("Error: set schedule failed");
-            JOptionPane.showMessageDialog(null, "No se pudo asignar el Horario...", "Error Message", JOptionPane.ERROR_MESSAGE);
+            JPanes.getInstance().errorPane("No se pudo asignar el Horario...");
         } else {
-            JOptionPane.showMessageDialog(this, "El Horario del Médico fue actualizado con éxito.");
+            JPanes.getInstance().msgPane("El Horario del Médico fue actualizado con éxito.");
         }
         this.setVisible(false);
         this.dispose();

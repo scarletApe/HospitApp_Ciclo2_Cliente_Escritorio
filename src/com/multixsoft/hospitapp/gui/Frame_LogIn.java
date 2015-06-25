@@ -166,11 +166,11 @@ public class Frame_LogIn extends javax.swing.JFrame {
                     return;
                 }
 
-                String url = "http://" + ip + ":8080/HospitAppServer/webresources/";
+                String url = "http://" + ip + ":8080/HospitAppServerCiclo1/webresources/";
 
                 ConectorServicio.URL_BASE = url;
 
-                ConectorServicio conectorServicio = ConectorServicio.getInstance();
+                
                 ConectorPrivacyControl conectorPrivacy = ConectorPrivacyControl.getInstance();
                 int access = conectorPrivacy.accessAsAdminOrDoctor(username, pass);
 //        System.err.println("Codigo: " + access);
@@ -183,6 +183,7 @@ public class Frame_LogIn extends javax.swing.JFrame {
 
                 } else if (access == 1) {
 //            System.err.print(username);
+                    ConectorServicio conectorServicio = ConectorServicio.getInstance();
                     Doctor doctor = conectorServicio.obtenerDoctor(username);
 
                     Frame_Doctor doctorFrame = new Frame_Doctor(doctor);

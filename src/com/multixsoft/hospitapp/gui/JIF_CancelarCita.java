@@ -18,6 +18,7 @@ import com.multixsoft.hospitapp.connector.ConectorServicio;
 import com.multixsoft.hospitapp.entities.Appointment;
 import com.multixsoft.hospitapp.entities.Doctor;
 import com.multixsoft.hospitapp.utilities.Date;
+import com.multixsoft.hospitapp.utilities.JPanes;
 
 /**
  *
@@ -219,9 +220,9 @@ public class JIF_CancelarCita extends javax.swing.JInternalFrame {
             boolean cancelAppointment = sm.cancelAppointment(appo);
             
             if(cancelAppointment){
-                JOptionPane.showMessageDialog(this, "Se canceló la cita.");
+                JPanes.getInstance().msgPane( "Se canceló la cita.");
             }else{
-                JOptionPane.showMessageDialog(this, "No se pudo cancelar la cita.");
+                JPanes.getInstance().errorPane( "No se pudo cancelar la cita.");
             }
             
             Doctor doc = appo.getDoctorUsername();

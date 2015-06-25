@@ -62,11 +62,10 @@ public class Frame_Administrador extends javax.swing.JFrame {
         jDesktopPanePacientes.setBorder(new BorderBackImage());
         jDesktopPaneDoctores.setBorder(new BorderBackImage());
         jDesktopPaneCitas.setBorder(new BorderBackImage());
-        
+
 //        BorderBackImage bb= new BorderBackImage();
 //        bb.rescale();
 //        jPanel2.setBorder(bb);
-
         Calendar cal = Calendar.getInstance();
         jLabelTime.setText(cal.getTime().toString());
 
@@ -85,6 +84,7 @@ public class Frame_Administrador extends javax.swing.JFrame {
 
         jTextFieldPassword = new javax.swing.JTextField();
         jPasswordField2 = new javax.swing.JPasswordField();
+        jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -107,9 +107,19 @@ public class Frame_Administrador extends javax.swing.JFrame {
         jButtonAgendarCita = new javax.swing.JButton();
         jButtonAdministrarCitas = new javax.swing.JButton();
         jDesktopPaneCitas = new javax.swing.JDesktopPane();
-        jPanel4 = new javax.swing.JPanel();
 
         jPasswordField2.setText("jPasswordField2");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 684, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 316, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -234,7 +244,7 @@ public class Frame_Administrador extends javax.swing.JFrame {
         jToolBar1.add(jButtonVerDoctores);
 
         jButtonCancelarCita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/icon-write.png"))); // NOI18N
-        jButtonCancelarCita.setText("       Ver Citas       ");
+        jButtonCancelarCita.setText("      Ver Citas      ");
         jButtonCancelarCita.setFocusable(false);
         jButtonCancelarCita.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonCancelarCita.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -282,7 +292,7 @@ public class Frame_Administrador extends javax.swing.JFrame {
         jToolBar2.add(jButtonAgendarCita);
 
         jButtonAdministrarCitas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/icon-clipboard.png"))); // NOI18N
-        jButtonAdministrarCitas.setText("    Admin Citas    ");
+        jButtonAdministrarCitas.setText("Administra Cita ");
         jButtonAdministrarCitas.setFocusable(false);
         jButtonAdministrarCitas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonAdministrarCitas.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -311,19 +321,6 @@ public class Frame_Administrador extends javax.swing.JFrame {
 
         jTabbedPane.addTab("Citas", jPanel3);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 684, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
-        );
-
-        jTabbedPane.addTab("Reportes", jPanel4);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -348,6 +345,87 @@ public class Frame_Administrador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        showConfirmacion();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonAdministrarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdministrarCitasActionPerformed
+        JInternalFrame[] allFrames = jDesktopPaneCitas.getAllFrames();
+        for (int i = 0; i < allFrames.length; i++) {
+            JInternalFrame frame = allFrames[i];
+            String name = frame.getName();
+            if (name.equalsIgnoreCase("abccita")) {
+                frame.moveToFront();
+                return;
+            }
+        }
+        JIF_ABC_Cita cita_frame = new JIF_ABC_Cita(null, jDesktopPaneCitas);
+        cita_frame.setName("abccita");
+        cita_frame.setVisible(true);
+        jDesktopPaneCitas.add(cita_frame);
+        cita_frame.requestFocusInWindow();
+        cita_frame.moveToFront();
+    }//GEN-LAST:event_jButtonAdministrarCitasActionPerformed
+
+    private void jButtonAgendarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgendarCitaActionPerformed
+        JInternalFrame[] allFrames = jDesktopPaneCitas.getAllFrames();
+        for (int i = 0; i < allFrames.length; i++) {
+            JInternalFrame frame = allFrames[i];
+            String name = frame.getName();
+            if (name.equalsIgnoreCase("agendarcita")) {
+                frame.moveToFront();
+                return;
+            }
+        }
+        JIF_AgendarCita cita_frame = new JIF_AgendarCita();
+        cita_frame.setName("agendarcita");
+        cita_frame.setVisible(true);
+        jDesktopPaneCitas.add(cita_frame);
+        cita_frame.requestFocusInWindow();
+        cita_frame.moveToFront();
+    }//GEN-LAST:event_jButtonAgendarCitaActionPerformed
+
+    private void jButtonCancelarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarCitaActionPerformed
+        JInternalFrame[] allFrames = jDesktopPaneDoctores.getAllFrames();
+        for (int i = 0; i < allFrames.length; i++) {
+            JInternalFrame allFrame = allFrames[i];
+            String name = allFrame.getName();
+            if (name != null) {
+                if (name.equalsIgnoreCase("cancelcita")) {
+                    allFrame.moveToFront();
+                    return;
+                }
+            }
+        }
+
+        JIF_CancelarCita cancelCitaFrame = new JIF_CancelarCita();
+        cancelCitaFrame.setName("cancelcita");
+        cancelCitaFrame.setVisible(true);
+        jDesktopPaneDoctores.add(cancelCitaFrame);
+        cancelCitaFrame.requestFocusInWindow();
+        cancelCitaFrame.moveToFront();
+    }//GEN-LAST:event_jButtonCancelarCitaActionPerformed
+
+    private void jButtonVerDoctoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerDoctoresActionPerformed
+        JInternalFrame[] allFrames = jDesktopPaneDoctores.getAllFrames();
+        for (int i = 0; i < allFrames.length; i++) {
+            JInternalFrame frame = allFrames[i];
+            String name = frame.getName();
+            if (name != null) {
+                if (name.equalsIgnoreCase("verdoctor")) {
+                    frame.moveToFront();
+                    return;
+                }
+            }
+        }
+        JIF_Doctores doc_frame = new JIF_Doctores(jDesktopPaneDoctores);
+        doc_frame.setName("verdoctor");
+        doc_frame.setVisible(true);
+        jDesktopPaneDoctores.add(doc_frame);
+        doc_frame.requestFocusInWindow();
+        doc_frame.moveToFront();
+    }//GEN-LAST:event_jButtonVerDoctoresActionPerformed
+
     private void jButtonAsignarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAsignarPacienteActionPerformed
         JInternalFrame[] allFrames = jDesktopPanePacientes.getAllFrames();
         for (int i = 0; i < allFrames.length; i++) {
@@ -369,25 +447,6 @@ public class Frame_Administrador extends javax.swing.JFrame {
         asignar.moveToFront();
     }//GEN-LAST:event_jButtonAsignarPacienteActionPerformed
 
-    private void jButtonCancelarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarCitaActionPerformed
-        JInternalFrame[] allFrames = jDesktopPaneDoctores.getAllFrames();
-        for (int i = 0; i < allFrames.length; i++) {
-            JInternalFrame allFrame = allFrames[i];
-            String name = allFrame.getName();
-            if (name.equalsIgnoreCase("cancelcita")) {
-                allFrame.moveToFront();
-                return;
-            }
-        }
-
-        JIF_CancelarCita cancelCitaFrame = new JIF_CancelarCita();
-        cancelCitaFrame.setName("cancelcita");
-        cancelCitaFrame.setVisible(true);
-        jDesktopPaneDoctores.add(cancelCitaFrame);
-        cancelCitaFrame.requestFocusInWindow();
-        cancelCitaFrame.moveToFront();
-    }//GEN-LAST:event_jButtonCancelarCitaActionPerformed
-
     private void jButtonVerPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerPacienteActionPerformed
         JInternalFrame[] allFrames = jDesktopPanePacientes.getAllFrames();
         for (int i = 0; i < allFrames.length; i++) {
@@ -407,78 +466,12 @@ public class Frame_Administrador extends javax.swing.JFrame {
         verPatientFrame.moveToFront();
     }//GEN-LAST:event_jButtonVerPacienteActionPerformed
 
-    private void jButtonVerDoctoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerDoctoresActionPerformed
-        JInternalFrame[] allFrames = jDesktopPaneDoctores.getAllFrames();
-        for (int i = 0; i < allFrames.length; i++) {
-            JInternalFrame frame = allFrames[i];
-            String name = frame.getName();
-            if (name.equalsIgnoreCase("verdoctor")) {
-                frame.moveToFront();
-                return;
-            }
-        }
-        JIF_Doctores doc_frame = new JIF_Doctores(jDesktopPaneDoctores);
-        doc_frame.setName("verdoctor");
-        doc_frame.setVisible(true);
-        jDesktopPaneDoctores.add(doc_frame);
-        doc_frame.requestFocusInWindow();
-        doc_frame.moveToFront();
-    }//GEN-LAST:event_jButtonVerDoctoresActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        showConfirmacion();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButtonAgendarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgendarCitaActionPerformed
-        JInternalFrame[] allFrames = jDesktopPaneCitas.getAllFrames();
-        for (int i = 0; i < allFrames.length; i++) {
-            JInternalFrame frame = allFrames[i];
-            String name = frame.getName();
-            if (name.equalsIgnoreCase("agendarcita")) {
-                frame.moveToFront();
-                return;
-            }
-        }
-        JIF_AgendarCita cita_frame = new JIF_AgendarCita();
-        cita_frame.setName("agendarcita");
-        cita_frame.setVisible(true);
-        jDesktopPaneCitas.add(cita_frame);
-        cita_frame.requestFocusInWindow();
-        cita_frame.moveToFront();
-    }//GEN-LAST:event_jButtonAgendarCitaActionPerformed
-
-    private void jButtonAdministrarCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdministrarCitasActionPerformed
-        JInternalFrame[] allFrames = jDesktopPaneCitas.getAllFrames();
-        for (int i = 0; i < allFrames.length; i++) {
-            JInternalFrame frame = allFrames[i];
-            String name = frame.getName();
-            if (name.equalsIgnoreCase("abccita")) {
-                frame.moveToFront();
-                return;
-            }
-        }
-        JIF_ABC_Cita cita_frame = new JIF_ABC_Cita();
-        cita_frame.setName("abccita");
-        cita_frame.setVisible(true);
-        jDesktopPaneCitas.add(cita_frame);
-        cita_frame.requestFocusInWindow();
-        cita_frame.moveToFront();
-    }//GEN-LAST:event_jButtonAdministrarCitasActionPerformed
-
-    private void errorPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void msgPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-    }
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-         try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Mac OS X".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -489,7 +482,7 @@ public class Frame_Administrador extends javax.swing.JFrame {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Frame_LogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-         
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -497,7 +490,7 @@ public class Frame_Administrador extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void showConfirmacion() {
         int n = JOptionPane.showConfirmDialog(
                 null, "Esta seguro de salir?", "Confirmación",

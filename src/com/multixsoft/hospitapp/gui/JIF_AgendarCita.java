@@ -13,6 +13,7 @@ import com.multixsoft.hospitapp.entities.Patient;
 import com.multixsoft.hospitapp.entities.Schedule;
 import com.multixsoft.hospitapp.utilities.Date;
 import com.multixsoft.hospitapp.utilities.IntervalFilter;
+import com.multixsoft.hospitapp.utilities.JPanes;
 import datechooser.events.SelectionChangedEvent;
 import datechooser.events.SelectionChangedListener;
 import java.awt.Color;
@@ -42,7 +43,7 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
 
         jLabelNoHayDoctor.setForeground(Color.red);
         jLabelNoHayDoctor.setText(" ");
-        
+
         jButtonSoliciarCita.setEnabled(false);
 
         actualizarListaPacientes();
@@ -69,8 +70,10 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
                     List<String> hours = getHoursForDate(new String[]{sDay + "", (sMonth + 1) + "", sYear + ""}, cSel);
                     if (hours == null) {
                         jLabelNoHayDoctor.setText("El Médico no tiene horas para esta fecha.");
+                        jComboBoxHorarios.setModel(new DefaultComboBoxModel());
                     } else {
                         //si tiene horas el medico
+                        jLabelNoHayDoctor.setText("");
 
                         //Combo box de Carreras en el panel de materias
                         jComboBoxHorarios.addActionListener(new ManejadorComboHoras());
@@ -267,28 +270,21 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
             Long answer = agendarCita(new String[]{hour, sDay + "", sMonth + ""}, cSel);
 
             if (answer == -1L) {
-                errorPane("La fecha seleccionada debe ser posterior a la fecha actual");
+                JPanes.getInstance().errorPane("La fecha seleccionada debe ser posterior a la fecha actual");
+
 //                btnScheduleApp.setVisibility(Button.INVISIBLE);
             } else if (answer == -2L) {
-                errorPane("No puede agendar más de una cita el mismo día");
+                JPanes.getInstance().errorPane("No puede agendar más de una cita el mismo día");
 //                btnScheduleApp.setVisibility(Button.INVISIBLE);
 
             } else {
 //                lblFechaAppointment.setText(fechaAppointment);
 //                lblHoraAppointment.setText(horaAppointment);
-                msgPane("La cita se ha registrado con éxito");
+                JPanes.getInstance().msgPane("La cita se ha registrado con éxito");
             }
         }
 
     }//GEN-LAST:event_jButtonSoliciarCitaActionPerformed
-
-    private void errorPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje de Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void msgPane(String s) {
-        JOptionPane.showMessageDialog(null, s, "Mensaje", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     private class ManejadorListaPacientes implements ListSelectionListener {
 
@@ -310,10 +306,11 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
 //                    selectedPatient = cSel;
 
                     Doctor doc = cSel.getDoctorUsername();
+                    jComboBoxHorarios.setModel(new DefaultComboBoxModel());
+                    jButtonSoliciarCita.setEnabled(false);
 
                     if (doc == null) {
                         jLabelNoHayDoctor.setText("El paciente no tiene un médico asignado.");
-                        jButtonSoliciarCita.setEnabled(false);
                         dateChooserCombo1.setEnabled(false);
                         return;
                     }
@@ -321,7 +318,7 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
                     dateChooserCombo1.setEnabled(true);
 
                     jLabelNoHayDoctor.setText(" ");
-                    jTextFieldDoctor.setText(cSel.getDoctorUsername().getFirstName());
+                    jTextFieldDoctor.setText(cSel.getDoctorUsername().toString());
 
                 }
             }
@@ -401,7 +398,7 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
     protected Long agendarCita(String params[], Patient patient) {
 //            Log.e("ENTRO A REGISTRAR CITA","btnREgistrarCita");
         ConectorScheduleManager conectorScheduleManager
-                = new ConectorScheduleManager().getInstance();
+                = ConectorScheduleManager.getInstance();
         List<Appointment> appointments = conectorScheduleManager.getNextAppointment(patient);
 
         Appointment appointment = new Appointment();

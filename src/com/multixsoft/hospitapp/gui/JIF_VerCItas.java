@@ -5,7 +5,6 @@
  */
 package com.multixsoft.hospitapp.gui;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -21,120 +20,121 @@ import com.multixsoft.hospitapp.connector.ConectorServicio;
 import com.multixsoft.hospitapp.entities.Appointment;
 import com.multixsoft.hospitapp.entities.Doctor;
 import com.multixsoft.hospitapp.utilities.Date;
-
+import javax.swing.JDesktopPane;
 
 /**
  *
  * @author Vane
  */
 public class JIF_VerCItas extends javax.swing.JInternalFrame {
-    
+
     private HistorialClinico historial;
-    private ConectorScheduleManager sm ;
+    private ConectorScheduleManager sm;
     private ConectorScheduleManager con;
     private ConectorServicio conectorServicio;
-   // private GUIDoctorHospitApp hospitapp;
+    private JDesktopPane papaPane;
+
+    // private GUIDoctorHospitApp hospitapp;
+
     /**
      * Creates new form JInternalFrameVerCItas
      */
     /*public JInternalFrameVerCItas() {
-        initComponents();
+     initComponents();
      //   hospitapp=new GUIDoctorHospitApp();
-        historial=new HistorialClinico();
-        jButton_VerHistorial.addActionListener(new JInternalFrameVerCItas.ManejadorBotonesCitas());
-        jButtonTerminarCita.addActionListener(new JInternalFrameVerCItas.ManejadorBotonesCitas());
-        jTable1.getSelectionModel().addListSelectionListener(new JInternalFrameVerCItas.ManejadorTabla());
-        GUIDoctorHospitApp.jDesktopPane1.add(historial);
-        cargarDatosTabla();
-    }*/
-    
+     historial=new HistorialClinico();
+     jButton_VerHistorial.addActionListener(new JInternalFrameVerCItas.ManejadorBotonesCitas());
+     jButtonTerminarCita.addActionListener(new JInternalFrameVerCItas.ManejadorBotonesCitas());
+     jTable1.getSelectionModel().addListSelectionListener(new JInternalFrameVerCItas.ManejadorTabla());
+     GUIDoctorHospitApp.jDesktopPane1.add(historial);
+     cargarDatosTabla();
+     }*/
+
     /**
      * Creates new form JInternalFrameVerCItas
+     *
      * @param doctor
      */
-    public JIF_VerCItas(Doctor doctor){
+    public JIF_VerCItas(Doctor doctor, JDesktopPane papaPane) {
         initComponents();
-     //   hospitapp=new GUIDoctorHospitApp();
-        historial=new HistorialClinico();
+        //   hospitapp=new GUIDoctorHospitApp();
+        historial = new HistorialClinico();
         jButton_VerHistorial.addActionListener(new JIF_VerCItas.ManejadorBotonesCitas());
         jButtonTerminarCita.addActionListener(new JIF_VerCItas.ManejadorBotonesCitas());
         jTable1.getSelectionModel().addListSelectionListener(new JIF_VerCItas.ManejadorTabla());
-        Frame_Doctor.jDesktopPane1.add(historial);
+
+        this.papaPane = papaPane;
+        papaPane.add(historial);
         cargarDatosTabla(doctor);
-        
+
+        this.setName("citasDelDia");
+        this.setTitle("Citas del Día de " + doctor.toString());
     }
-    
-    
-    
-    
-    
-    private void cargarDatosTabla(Doctor doctor){
-         //Obtener datos de citas
+
+    private void cargarDatosTabla(Doctor doctor) {
+        //Obtener datos de citas
         con = ConectorScheduleManager.getInstance();
         List<Appointment> listaCitas = con.getAllAppointmentsFor(doctor, new Date());
         System.err.println(listaCitas.toString());
         int sizeListaCitas = listaCitas.size();
-        String[] titulosColumnas = {"ID","NSS","NOMBRE","APELLIDO PATERNO","FECHA"};
+        String[] titulosColumnas = {"ID", "NSS", "NOMBRE", "APELLIDO PATERNO", "FECHA"};
         Object[][] tempJTable = new Object[sizeListaCitas][titulosColumnas.length];
-        
+
         int i = 0;
-        if(sizeListaCitas !=0 ){
-            for(Appointment appointment : listaCitas){
-                tempJTable[i][0]= appointment.getIdAppointment();
-                tempJTable[i][1]= appointment.getPatientNss();
-                tempJTable[i][2]=appointment.getPatientNss().getFirstName();
-                tempJTable[i][3]=appointment.getPatientNss().getLastName();
-                tempJTable[i][4]= appointment.getDate();
+        if (sizeListaCitas != 0) {
+            for (Appointment appointment : listaCitas) {
+                tempJTable[i][0] = appointment.getIdAppointment();
+                tempJTable[i][1] = appointment.getPatientNss();
+                tempJTable[i][2] = appointment.getPatientNss().getFirstName();
+                tempJTable[i][3] = appointment.getPatientNss().getLastName();
+                tempJTable[i][4] = appointment.getDate();
                 i++;
             }
         }
-        
+
         DefaultTableModel tableModel = new DefaultTableModel(tempJTable, titulosColumnas);
 
         jTable1.setModel(tableModel);
-       //  sorter = new TableRowSorter<TableModel>(tableModel);
+        //  sorter = new TableRowSorter<TableModel>(tableModel);
         //jTable1.setRowSorter(sorter);
 
         jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
     }
-    
-    
-        
-    
-    
-     public class ManejadorBotonesCitas implements ActionListener{
+
+    public class ManejadorBotonesCitas implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             int fila;
-            fila=jTable1.getSelectedRow();
+            fila = jTable1.getSelectedRow();
             TableModel modelo = jTable1.getModel();
             String textBoton = ae.getActionCommand();
-            if(textBoton.equalsIgnoreCase("Ver Historial")){
+            if (textBoton.equalsIgnoreCase("Ver Historial")) {
                 historial.show();
-            }else if(textBoton.equalsIgnoreCase("Finalizar Cita"))
-                 if (fila != -1) {
-                    System.out.println("--------"+modelo.getValueAt(fila, fila));
+            } else if (textBoton.equalsIgnoreCase("Finalizar Cita")) {
+                if (fila != -1) {
+                    System.out.println("--------" + modelo.getValueAt(fila, fila));
                     conectorServicio = ConectorServicio.getInstance();
                     sm = ConectorScheduleManager.getInstance();
-                    appointment = conectorServicio.obtenerAppointment
-                        (Long.parseLong(modelo.getValueAt(fila, fila).toString()));
+                    appointment = conectorServicio.obtenerAppointment(Long.parseLong(modelo.getValueAt(fila, fila).toString()));
                     //con.
-                   System.err.println("APPOINTMENT "+appointment.toString());
+                    System.err.println("APPOINTMENT " + appointment.toString());
                     boolean getAppointmentFinish = sm.setAppointmentFinish(appointment);
-                    if(getAppointmentFinish){
+                    if (getAppointmentFinish) {
                         JOptionPane.showMessageDialog(jButtonTerminarCita, "Cita finalizada con éxito");
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(jButtonTerminarCita, "No se pudo finalizar la cita");
                     }
-                    
-                 }else {
-                     System.out.println("Por favor selecciona el paciente atendido.");
-                 }
+
+                } else {
+                    System.out.println("Por favor selecciona el paciente atendido.");
+                }
+            }
         }
     }
-     
-     private class ManejadorTabla implements ListSelectionListener{
+
+    private class ManejadorTabla implements ListSelectionListener {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -148,38 +148,36 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
                 }
             }
         }
-        private void cargarDatosTabla(Doctor doctor){
-         //Obtener datos de citas
-         con = ConectorScheduleManager.getInstance();
-        List<Appointment> listaCitas = con.getAllAppointmentsFor(doctor, new Date());
-        System.err.println(listaCitas.toString());
-        int sizeListaCitas = listaCitas.size();
-        String[] titulosColumnas = {"ID","NSS","NOMBRE","APELLIDO PATERNO","FECHA"};
-        Object[][] tempJTable = new Object[sizeListaCitas][titulosColumnas.length];
-        
-        int i = 0;
-        if(sizeListaCitas !=0 ){
-            for(Appointment appointment : listaCitas){
-                tempJTable[i][0]= appointment.getIdAppointment();
-                tempJTable[i][1]= appointment.getPatientNss();
-                tempJTable[i][2]=appointment.getPatientNss().getFirstName();
-                tempJTable[i][3]=appointment.getPatientNss().getLastName();
-                tempJTable[i][4]= appointment.getDate();
-                i++;
-            }
-        }
-        
-        
-      
-        DefaultTableModel tableModel = new DefaultTableModel(tempJTable, titulosColumnas);
-        jTable1.setModel(tableModel);
-       //  sorter = new TableRowSorter<TableModel>(tableModel);
-        //jTable1.setRowSorter(sorter);
-        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-    }
 
-       
+        private void cargarDatosTabla(Doctor doctor) {
+            //Obtener datos de citas
+            con = ConectorScheduleManager.getInstance();
+            List<Appointment> listaCitas = con.getAllAppointmentsFor(doctor, new Date());
+            System.err.println(listaCitas.toString());
+            int sizeListaCitas = listaCitas.size();
+            String[] titulosColumnas = {"ID", "NSS", "NOMBRE", "APELLIDO PATERNO", "FECHA"};
+            Object[][] tempJTable = new Object[sizeListaCitas][titulosColumnas.length];
+
+            int i = 0;
+            if (sizeListaCitas != 0) {
+                for (Appointment appointment : listaCitas) {
+                    tempJTable[i][0] = appointment.getIdAppointment();
+                    tempJTable[i][1] = appointment.getPatientNss();
+                    tempJTable[i][2] = appointment.getPatientNss().getFirstName();
+                    tempJTable[i][3] = appointment.getPatientNss().getLastName();
+                    tempJTable[i][4] = appointment.getDate();
+                    i++;
+                }
+            }
+
+            DefaultTableModel tableModel = new DefaultTableModel(tempJTable, titulosColumnas);
+            jTable1.setModel(tableModel);
+       //  sorter = new TableRowSorter<TableModel>(tableModel);
+            //jTable1.setRowSorter(sorter);
+            jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        }
+
     }
 
     /**
@@ -297,6 +295,5 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
    private Appointment appointment;
-     
+
 }
-     

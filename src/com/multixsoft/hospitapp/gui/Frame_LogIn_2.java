@@ -62,8 +62,8 @@ public class Frame_LogIn_2 {
                 // set frame size as Demo perposes, otherwise not recommended
                 frame.setSize(new Dimension(500, 300));
 
-                frame.add(new MainContainer());
-                
+                frame.add(new MainContainer(frame));
+
                 Toolkit aKit = frame.getToolkit();
                 Dimension windowSize = aKit.getScreenSize();
                 frame.setBounds((windowSize.width / 2) - (frame.getWidth() / 2),
@@ -71,11 +71,10 @@ public class Frame_LogIn_2 {
                         frame.getWidth(), frame.getHeight());
 
                 frame.setResizable(false);
-                
+
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
-                
-                
+
             }
         });
     }
@@ -88,8 +87,11 @@ public class Frame_LogIn_2 {
 class MainContainer extends JPanel {
 
     public BufferedImage gradientImage = null;
+    private final JFrame papa;
 
-    public MainContainer() {
+    public MainContainer(final JFrame pap) {
+
+        this.papa = pap;
 
         setBorder(new EmptyBorder(50, 50, 50, 50)); // setting the insets 
         // learn about GridBagLayout from the linked page about LayoutManager
@@ -98,7 +100,7 @@ class MainContainer extends JPanel {
         final JLabel JTextFieldUsername = new JLabel("User Name");
         changeCompFont(JTextFieldUsername);
 
-        JTextField usrNameFeild = new JTextField();
+        final JTextField usrNameFeild = new JTextField();
 //        changeCompFont(usrNameFeild);
 
 //         create compund border for text and password feild with left padding 5 px
@@ -166,9 +168,9 @@ class MainContainer extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = JTextFieldUsername.getText();
+                String username = usrNameFeild.getText();
                 String pass = new String(jPasswordField.getPassword());
-                String ip = "localhost";//jTextFieldIPServidor.getText();
+                String ip = "192.168.137.1";//jTextFieldIPServidor.getText();
 
                 if (username != null && pass != null && ip != null) {
                     if (!username.isEmpty() && !pass.isEmpty() && !ip.isEmpty()) {
@@ -179,7 +181,7 @@ class MainContainer extends JPanel {
                             return;
                         }
 
-                        String url = "http://" + ip + ":8080/HospitAppServer/webresources/";
+                        String url = "http://" + ip + ":8080/HospitAppServerCiclo1/webresources/";
 
                         ConectorServicio.URL_BASE = url;
 
@@ -191,8 +193,8 @@ class MainContainer extends JPanel {
                             Frame_Administrador mf = new Frame_Administrador();
                             mf.setVisible(true);
 
-                            f.setVisible(false);
-//                            f.dispose();
+                            papa.setVisible(false);
+                            papa.dispose();
 
                         } else if (access == 1) {
 //            System.err.print(username);
@@ -201,8 +203,8 @@ class MainContainer extends JPanel {
                             Frame_Doctor doctorFrame = new Frame_Doctor(doctor);
                             doctorFrame.setVisible(true);
 
-                            f.setVisible(false);
-//                            this.dispose();
+                            papa.setVisible(false);
+                            papa.dispose();
                         } else {
                             jLabelIncorrectMessage.setText("Username o Password incorrecta!");
                             jLabelIncorrectMessage.setForeground(Color.red);
