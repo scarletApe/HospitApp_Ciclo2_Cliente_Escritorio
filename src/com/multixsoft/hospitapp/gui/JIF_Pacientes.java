@@ -40,14 +40,14 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         initComponents();
 //        this.setResizable(false);
 
-        jButtonEliminarPaciente.setEnabled(false);
+//        jButtonEliminarPaciente.setEnabled(false);
         jButtonModificarPaciente.setEnabled(false);
 
         jTextFieldNombre.setDocument(new FixedSizeAlphabeticalDocument(jTextFieldNombre, 100));
         jTextFieldApellido.setDocument(new FixedSizeAlphabeticalDocument(jTextFieldApellido, 100));
 
         jTextFieldNSS.setDocument(new FixedSizeNumberDocument(jTextFieldNSS, 12));
-        jPasswordField1.setDocument(new FixedSizeAlphaNumericDocument(jPasswordField1, 64));
+        jPasswordField1.setDocument(new FixedSizeAlphaNumericDocument(jPasswordField1, 32));
 
         jTextFieldEmail.setDocument(new FixedSizeEmailDocument(jTextFieldEmail, 64));
 
@@ -79,8 +79,9 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         jTextFieldEmail.setText("");
         jToggleButtonActividad.setSelected(false);
         jToggleButtonActividad.setText("Inactivo");
-        jButtonEliminarPaciente.setEnabled(false);
+//        jButtonEliminarPaciente.setEnabled(false);
         jButtonModificarPaciente.setEnabled(false);
+        jButtonGuardarPaciente.setEnabled(true);
 
 //        jLabelErrorMsg.setText(" ");
         jLabel_Error_Nombre.setText(" ");
@@ -131,7 +132,6 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         jToolBar1 = new javax.swing.JToolBar();
         jButtonGuardarPaciente = new javax.swing.JButton();
         jButtonModificarPaciente = new javax.swing.JButton();
-        jButtonEliminarPaciente = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         jLabel10.setText("jLabel10");
@@ -304,15 +304,6 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButtonModificarPaciente);
 
-        jButtonEliminarPaciente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_delete.png"))); // NOI18N
-        jButtonEliminarPaciente.setText("Eliminar");
-        jButtonEliminarPaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarPacienteActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButtonEliminarPaciente);
-
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_clear.png"))); // NOI18N
         jButton1.setText("Limpiar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -374,7 +365,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                 Validator val = Validator.getInstance();
 
                 if (existeNSS(nss)) {
-                    JPanes.getInstance().msgPane( "Verifica el NSS...");
+                    JPanes.getInstance().msgPane("Verifica el NSS...");
                     return;
                 }
 
@@ -389,7 +380,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                         && isValid_nss
                         && isValid_email
                         && isValid_password) {
-                    
+
                     ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
                     byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
                     String pass = pc.bytesToString(encrypted);
@@ -399,11 +390,11 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                     String saveNewPatient = conectorPatient.saveNewPatient(patient);
 
                     if (saveNewPatient != null) {
-                        JPanes.getInstance().msgPane( "El paciente fue creado exitosamente. ");
+                        JPanes.getInstance().msgPane("El paciente fue creado exitosamente. ");
                         limpiarCampos();
                         actualizarListaPacientes();
                     } else {
-                        JPanes.getInstance().errorPane( "No se pudo crear el Paciente...");
+                        JPanes.getInstance().errorPane("No se pudo crear el Paciente...");
                     }
                 } else {
                     if (!isValid_Nombre) {
@@ -419,7 +410,7 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                     }
 
                     if (!isValid_nss) {
-                        jLabel_Error_Nss.setText("El NSS debe tener 11 dígitos y opcionalmente un guión.");
+                        jLabel_Error_Nss.setText("El NSS debe tener 11 dígitos y opcionalmente un guión intermedio.");
                     } else {
                         jLabel_Error_Nss.setText(" ");
                     }
@@ -455,6 +446,10 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
         String password = new String(jPasswordField1.getPassword());
         if (password.isEmpty()) {
             password = selectedPatient.getPassword();
+        } else {
+            ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
+            byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
+            password = pc.bytesToString(encrypted);
         }
 
         String firstName = jTextFieldNombre.getText();
@@ -471,13 +466,9 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
                     && !firstName.isEmpty()
                     && !lastName.isEmpty()
                     && !address.isEmpty()
-                    && !password.isEmpty()) {
-                
-                ConectorPrivacyControl pc = ConectorPrivacyControl.getInstance();
-                byte[] encrypted = pc.encrypt(password.getBytes(), pc.getKey());
-                String pass = pc.bytesToString(encrypted);
+                   ) {
 
-                Patient p = new Patient(selectedPatient.getNss(), pass, firstName, lastName, address, isActive);
+                Patient p = new Patient(selectedPatient.getNss(), password, firstName, lastName, address, isActive);
                 p.setDoctorUsername(selectedPatient.getDoctorUsername());
                 ConectorServicio servidor = ConectorServicio.getInstance();
                 servidor.updatePatient(p);
@@ -494,37 +485,6 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
             jLabel_Error_Nombre.setForeground(Color.red);
         }
     }//GEN-LAST:event_jButtonModificarPacienteActionPerformed
-
-    private void jButtonEliminarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPacienteActionPerformed
-        DefaultListModel modelo = (DefaultListModel) jListPacientes.getModel();
-        int indice = jListPacientes.getSelectedIndex();
-        if (indice != -1) {
-            Patient pac = (Patient) modelo.getElementAt(indice);
-
-            int n = JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar a " + pac.toString() + " ?", "Confirmación",
-                    JOptionPane.YES_NO_OPTION);
-            if (n == JOptionPane.YES_OPTION) {
-                ConectorServicio servidor = ConectorServicio.getInstance();
-                servidor.eliminarPatient(pac.getNss());
-//                ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
-//                boolean deleted = dm.deleteDoctor(doc);
-//                if(deleted){
-//                    msgPane("El Médico se elimino con exito.");
-//                }else{
-//                    errorPane("El Médico no se pudo eliminar");
-//                }
-            } else if (n == JOptionPane.NO_OPTION) {
-                //JOptionPane.showMessageDialog(null, "Continueando...");
-            } else {
-                //JOptionPane.showMessageDialog(null, "Continueando...");
-            }
-
-//            jButtonEliminarPaciente.setEnabled(false);
-//            jButtonModificarPaciente.setEnabled(false);
-            limpiarCampos();
-            actualizarListaPacientes();
-        }
-    }//GEN-LAST:event_jButtonEliminarPacienteActionPerformed
 
     private void jToggleButtonActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonActividadActionPerformed
         if (jToggleButtonActividad.isSelected()) {
@@ -545,11 +505,13 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
             if (e.getValueIsAdjusting() == false) {
                 int indice = jListPacientes.getSelectedIndex();
                 if (indice == -1) {
-                    jButtonEliminarPaciente.setEnabled(false);
+//                    jButtonEliminarPaciente.setEnabled(false);
                     jButtonModificarPaciente.setEnabled(false);
+                    jButtonGuardarPaciente.setEnabled(true);
                 } else {
-                    jButtonEliminarPaciente.setEnabled(true);
+//                    jButtonEliminarPaciente.setEnabled(true);
                     jButtonModificarPaciente.setEnabled(true);
+                    jButtonGuardarPaciente.setEnabled(false);
 
                     ListModel modelo = jListPacientes.getModel();
                     Patient cSel = (Patient) modelo.getElementAt(indice);
@@ -588,7 +550,6 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonEliminarPaciente;
     private javax.swing.JButton jButtonGuardarPaciente;
     private javax.swing.JButton jButtonModificarPaciente;
     private javax.swing.JLabel jLabel1;

@@ -26,6 +26,7 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form JIF_Reportes
+     * @param cita
      */
     public JIF_Reportes(Appointment cita) {
         initComponents();
@@ -67,9 +68,6 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jButtonCrear = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButtonPDF = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -116,30 +114,6 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButtonCrear);
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_save.png"))); // NOI18N
-        jButton2.setText("Actualizar");
-        jButton2.setEnabled(false);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_delete.png"))); // NOI18N
-        jButton3.setText("Eliminar");
-        jButton3.setEnabled(false);
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton3);
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_clear.png"))); // NOI18N
-        jButton4.setText("Limpiar");
-        jButton4.setEnabled(false);
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton4);
 
         jButtonPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_flag_green.png"))); // NOI18N
         jButtonPDF.setText("PDF de Reporte");
@@ -308,12 +282,14 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
         String medicina = jTextFieldMedicina.getText();
         String indicaciones = jTextAreaIndicaciones.getText();
         
+        System.err.println("Debug Cita en JIFRepo:"+cita.getDate().toString());
+        
         report = new Report(idReportPlusOne);
         report.setDescription(descripcion);
         report.setMedicine(medicina);
         report.setIndications(indicaciones);
         report.setIdAppointment(cita);
-        report.setPatientNss(cita.getPatientNss().getNss());
+        report.setPatientNss(cita.getPatientNss());
         
         ConectorPatientDataRecorder pdr = ConectorPatientDataRecorder.getInstance();
         boolean saved = pdr.saveHistoryAppointment(report);
@@ -330,9 +306,6 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonCrear;
     private javax.swing.JButton jButtonPDF;
     private javax.swing.JLabel jLabel1;

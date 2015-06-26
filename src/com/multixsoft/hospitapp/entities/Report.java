@@ -16,7 +16,7 @@ public class Report {
     private String description;
     private String medicine;
     private String indications;
-    private String patientNss;
+    private Patient patientNss;
     private Appointment idAppointment;
     
     public Report() {
@@ -26,7 +26,7 @@ public class Report {
         this.idReport = idReport;
     }
 
-    public Report(Long idReport, String patientNss) {
+    public Report(Long idReport, Patient patientNss) {
         this.idReport = idReport;
         this.patientNss = patientNss;
     }
@@ -63,11 +63,11 @@ public class Report {
         this.indications = indications;
     }
 
-    public String getPatientNss() {
+    public Patient getPatientNss() {
         return patientNss;
     }
 
-    public void setPatientNss(String patientNss) {
+    public void setPatientNss(Patient patientNss) {
         this.patientNss = patientNss;
     }
 

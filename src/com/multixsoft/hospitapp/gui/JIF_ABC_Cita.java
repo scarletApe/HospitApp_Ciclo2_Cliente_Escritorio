@@ -33,6 +33,7 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form JIF_ABC_Cita
+     *
      * @param doc El doctor, puede estar nullo y se llena de todas las citas
      * @param papa El jdesktoppane padre
      */
@@ -45,7 +46,7 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
         jTextFieldHora.setDocument(new FixedSizeNumberDocument(jTextFieldHora, 2));
 
         jButtonActualizar.setEnabled(false);
-        jButtonEliminar.setEnabled(false);
+//        jButtonEliminar.setEnabled(false);
         jButtonVerReporte.setEnabled(false);
         actualizarListCitas();
     }
@@ -75,6 +76,15 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
         }
     }
 
+    public void limpiar() {
+        jTextFieldIDCita.setText("");
+        jTextFieldPaciente.setText("");
+        jTextFieldDoctor.setText("");
+        jTextFieldHora.setText("");
+        jCheckBoxCanceled.setSelected(false);
+        jCheckBoxFinished.setSelected(false);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,7 +96,6 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
 
         jToolBar1 = new javax.swing.JToolBar();
         jButtonActualizar = new javax.swing.JButton();
-        jButtonEliminar = new javax.swing.JButton();
         jButtonVerReporte = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -127,19 +136,6 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
         });
         jToolBar1.add(jButtonActualizar);
 
-        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_delete.png"))); // NOI18N
-        jButtonEliminar.setText("Eliminar");
-        jButtonEliminar.setEnabled(false);
-        jButtonEliminar.setFocusable(false);
-        jButtonEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(jButtonEliminar);
-
         jButtonVerReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_flag_blue.png"))); // NOI18N
         jButtonVerReporte.setText("Ver Reporte");
         jButtonVerReporte.setFocusable(false);
@@ -151,8 +147,6 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
             }
         });
         jToolBar1.add(jButtonVerReporte);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jScrollPane1.setViewportView(jListCitas);
 
@@ -258,7 +252,7 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -295,41 +289,60 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
         if (indice != -1) {
             Appointment cSel = (Appointment) modelo.getElementAt(indice);
 
-            //codigo para actualizar la cita
-            //codigo para notificar al paciente de la modificacion
+            cSel.setIsFinished(jCheckBoxFinished.isSelected());
+            cSel.setIscanceled(jCheckBoxCanceled.isSelected());
+            cSel.setTime(jTextFieldHora.getText());
+            cSel.setDate(new Date(dateChooserCombo1.getSelectedDate()));
+
             ConectorScheduleManager sm = ConectorScheduleManager.getInstance();
-            boolean note = sm.notificateChange(cSel);
-            if (note) {
-                JPanes.getInstance().mailMsgPane("Se le notifico el cambio al paciente.");
+
+            //updateAppointment
+            boolean setChangeAppointment = sm.updateAppointment(cSel);
+
+            if (setChangeAppointment) {
+                JPanes.getInstance().msgPane("Se actualizó la cita.");
+
+                //codigo para actualizar la cita
+                //codigo para notificar al paciente de la modificacion
+                boolean note = sm.notificateChange(cSel);
+                if (note) {
+                    JPanes.getInstance().mailMsgPane("Se le notifico el cambio al paciente.");
+                } else {
+                    JPanes.getInstance().errorPane("Hubo un error al notificar al paciente del cambio.");
+                }
             } else {
-                JPanes.getInstance().errorPane("Hubo un error al notificar al paciente del cambio.");
+                JPanes.getInstance().errorPane("Hubo un error al actualizar la cita.");
             }
 
+            limpiar();
+            actualizarListCitas();
         }
     }//GEN-LAST:event_jButtonActualizarActionPerformed
-
-    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVerReporteActionPerformed
         DefaultListModel modelo = (DefaultListModel) jListCitas.getModel();
         int indice = jListCitas.getSelectedIndex();
         if (indice != -1) {
-            Appointment cSel = (Appointment) modelo.getElementAt(indice);
+            Appointment cita = (Appointment) modelo.getElementAt(indice);
+
+            if (cita.getDate() != null) {
+                System.out.println("" + cita.getDate().toString());
+            } else {
+                System.out.println("Date of appo is null!!");
+            }
 
             ConectorPatientDataRecorder pdr = ConectorPatientDataRecorder.getInstance();
-            Report repo = pdr.getHistoryFromAppointment(cSel);
+            Report repo = pdr.getHistoryFromAppointment(cita);
 
             if (repo != null) {
                 System.err.println(repo.toString());
-                JIF_Reportes rep = new JIF_Reportes(repo,cSel);
+                JIF_Reportes rep = new JIF_Reportes(repo, cita);
                 papa.add(rep);
                 rep.show();
                 rep.moveToFront();
             } else {
                 System.out.println("repo is null");
-                JIF_Reportes rep = new JIF_Reportes(cSel);
+                JIF_Reportes rep = new JIF_Reportes(cita);
                 papa.add(rep);
                 rep.show();
                 rep.moveToFront();
@@ -379,7 +392,6 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo dateChooserCombo1;
     private javax.swing.JButton jButtonActualizar;
-    private javax.swing.JButton jButtonEliminar;
     private javax.swing.JButton jButtonVerReporte;
     private javax.swing.JCheckBox jCheckBoxCanceled;
     private javax.swing.JCheckBox jCheckBoxFinished;

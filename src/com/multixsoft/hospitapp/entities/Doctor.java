@@ -21,6 +21,7 @@ public class Doctor {
     private Collection<Schedule> scheduleCollection;
     private Collection<Patient> patientCollection;
     private Collection<Appointment> appointmentCollection;
+    private boolean isActive;
     
     public Doctor(){
         
@@ -112,6 +113,16 @@ public class Doctor {
     public void setAppointmentCollection(Collection<Appointment> appointmentCollection) {
         this.appointmentCollection = appointmentCollection;
     }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
+    
 
     @Override
     public int hashCode() {

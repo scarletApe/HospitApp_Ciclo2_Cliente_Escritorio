@@ -1,5 +1,6 @@
 package com.multixsoft.hospitapp.connector;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,31 +42,32 @@ public class ConectorScheduleManager {
     }
 
     public long scheduleAppointment(Appointment appointment) {
-//        boolean result = false;
+        boolean result = false;
+
 
         Map<String, String> appointmentMap = new HashMap<String, String>();
         appointmentMap.put("idAppointment", appointment.getIdAppointment().toString());
         appointmentMap.put("time", appointment.getTime());
         Date date = appointment.getDate();
         int day = date.getDia();
-        String dia = day + "";
-        if (day < 10) {
-            dia = "0" + day;
+        String dia=day+"";
+        if(day<10){
+            dia="0"+day;
         }
         int mes = date.getMes();
-        String mesS = mes + "";
-        if (mes < 10) {
-            mesS = "0" + mes;
+        String mesS=mes+"";
+        if(mes<10){
+            mesS="0"+mes;
         }
 
         int year = date.getYear();
 
-        appointmentMap.put("date", year + "-" + mesS + "-" + dia + "T00:00:00-05:00");
+        appointmentMap.put("date", year+"-"+mesS+"-"+dia+"T00:00:00-05:00");
 
-        if (appointment.getIsFinished() != null) {
+        if(appointment.getIsFinished() != null){
             appointmentMap.put("isFinished", appointment.getIsFinished().toString());
         }
-        if (appointment.getIscanceled() != null) {
+        if(appointment.getIscanceled() != null){
             appointmentMap.put("iscanceled", appointment.getIscanceled().toString());
         }
 
@@ -77,24 +79,27 @@ public class ConectorScheduleManager {
         doctorMap.put("lastName", doctorAppointment.getLastName());
         doctorMap.put("license", doctorAppointment.getLicense());
 
-        if (doctorAppointment.getSpecialty() != null) {
+
+        if(doctorAppointment.getSpecialty() != null){
             doctorMap.put("specialty", doctorAppointment.getSpecialty());
         }
 
         String docJSON = new JSONObject(doctorMap).toJSONString();
-        System.err.println("------Representación de doctor de Appointment: " + docJSON);
+        System.err.println("------Representación de doctor de Appointment: "+docJSON);
         System.err.println();
         System.err.println();
-        appointmentMap.put("doctorUsername", docJSON);
+        appointmentMap.put("doctorUsername",docJSON);
 
         System.err.print("Appointment until now!! --  ");
         JSONObject appointmentJsonFirst = new JSONObject(appointmentMap);
 
         String appointmentToScheduleFirst = appointmentJsonFirst.toJSONString();
         appointmentToScheduleFirst = appointmentToScheduleFirst.replace("\\", "");
-        appointmentToScheduleFirst = appointmentToScheduleFirst.replace("\"{", "{");
+        appointmentToScheduleFirst= appointmentToScheduleFirst.replace("\"{", "{");
         appointmentToScheduleFirst = appointmentToScheduleFirst.replace("}\"", "}");
         System.err.println(appointmentToScheduleFirst);
+
+
 
         Patient patient = appointment.getPatientNss();
         Map<String, String> patientMap = new HashMap<String, String>();
@@ -103,9 +108,10 @@ public class ConectorScheduleManager {
         patientMap.put("firstName", patient.getFirstName());
         patientMap.put("lastName", patient.getLastName());
         patientMap.put("address", patient.getAddress());
-        patientMap.put("isActive", patient.getIsActive() + "");
+        patientMap.put("isActive", patient.getIsActive()+"");
 
-        if (patient.getDoctorUsername() != null) {
+
+        if(patient.getDoctorUsername() != null){
             Doctor patientDoctor = patient.getDoctorUsername();
             Map<String, String> patientDoctorMap = new HashMap<String, String>();
             patientDoctorMap.put("username", patientDoctor.getUsername());
@@ -113,13 +119,14 @@ public class ConectorScheduleManager {
             patientDoctorMap.put("firstName", patientDoctor.getFirstName());
             patientDoctorMap.put("lastName", patientDoctor.getLastName());
             patientDoctorMap.put("license", patientDoctor.getLicense());
-            if (doctorAppointment.getSpecialty() != null) {
+            if(doctorAppointment.getSpecialty() != null){
                 patientDoctorMap.put("specialty", patientDoctor.getSpecialty());
             }
 
+
             String docPatientJSON = new JSONObject(patientDoctorMap).toJSONString();
             patientMap.put("doctorUsername", docPatientJSON);
-            System.err.println("------Representación de Doctor de Patient: " + docPatientJSON);
+            System.err.println("------Representación de Doctor de Patient: "+docPatientJSON);
             System.err.println();
             System.err.println();
         }
@@ -127,37 +134,42 @@ public class ConectorScheduleManager {
         JSONObject patientJson = new JSONObject(patientMap);
         String patientToSchedule = patientJson.toJSONString();
         patientToSchedule = patientToSchedule.replace("\\", "");
-        patientToSchedule = patientToSchedule.replace("\"{", "{");
+        patientToSchedule= patientToSchedule.replace("\"{", "{");
         patientToSchedule = patientToSchedule.replace("}\"", "}");
 
         appointmentMap.put("patientNss", patientToSchedule);
-        System.err.println("------Representación de Patient de Appointment: " + patientToSchedule);
+        System.err.println("------Representación de Patient de Appointment: "+patientToSchedule);
         System.err.println();
         System.err.println();
+
+
 
         JSONObject appointmentJson = new JSONObject(appointmentMap);
 
         String appointmentToSchedule = appointmentJson.toJSONString();
 
+
         appointmentToSchedule = patientToSchedule.replace("\\", "");
         appointmentToSchedule = patientToSchedule.replace("\"{", "{");
         appointmentToSchedule = patientToSchedule.replace("}\"", "}");
 
-        String finalCadena = appointmentToScheduleFirst.substring(0, appointmentToScheduleFirst.length() - 1) + "," + "\"patientNss\":{" + appointmentToSchedule.substring(1, appointmentToSchedule.length()) + "}";
+
+        String finalCadena = appointmentToScheduleFirst.substring(0,appointmentToScheduleFirst.length()-1)+","+ "\"patientNss\":{"+appointmentToSchedule.substring(1, appointmentToSchedule.length())+"}";
         System.err.println("-----------Esta si sería la final --------------------------");
         System.err.println(finalCadena);
         byte[] porEnviar = finalCadena.getBytes();
 
-        System.out.println("Appointment Final: " + "\"patientNss\":{" + appointmentToSchedule.substring(1, appointmentToSchedule.length()));
+        System.out.println("Appointment Final: "+ "\"patientNss\":{"+appointmentToSchedule.substring(1, appointmentToSchedule.length()));
 
-        String cadena = URL_BASE + "appointment/" + appointment.getIdAppointment();
+
+        String cadena = URL_BASE + "appointment";
 
         try {
             url = new URL(cadena);
             conexion = (HttpURLConnection) url.openConnection();
             conexion.setDoOutput(true);
 
-            conexion.setRequestMethod("PUT");
+            conexion.setRequestMethod("POST");
 
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Content-Length", Integer.toString(porEnviar.length));
@@ -179,6 +191,8 @@ public class ConectorScheduleManager {
             e.printStackTrace();
         }
         return appointment.getIdAppointment();
+
+
     }
 
     public boolean cancelAppointment(Appointment appointment) {
@@ -514,11 +528,17 @@ public class ConectorScheduleManager {
                     appointment.setIdAppointment(Long.parseLong(appointmentJson.get(
                             "idAppointment").toString()));
 
-                    appointment.setIscanceled(Boolean.getBoolean(appointmentJson.get(
-                            "iscanceled").toString()));
+                    if (appointmentJson.get(
+                            "iscanceled") != null) {
+                        appointment.setIscanceled(Boolean.getBoolean(appointmentJson.get(
+                                "iscanceled").toString()));
+                    }
 
-                    appointment.setIsFinished(Boolean.getBoolean(appointmentJson.get(
-                            "isFinshed").toString()));
+                    if (appointmentJson.get(
+                            "isFinshed") != null) {
+                        appointment.setIsFinished(Boolean.getBoolean(appointmentJson.get(
+                                "isFinshed").toString()));
+                    }
 
                     appointment.setPatientNss((patientFromJson((JSONObject) appointmentJson
                             .get("patientNss"))));
@@ -589,12 +609,12 @@ public class ConectorScheduleManager {
         }
         return day + "/" + month + "/" + date.getYear();
     }
-    
+
     //Mi metodo nuevo (Ivan)
     public boolean notificateChange(Appointment appointment) {
         boolean result = false;
         try {
-            String path = URL_BASE + "schedulemanager/notificatechange?appointment=" 
+            String path = URL_BASE + "schedulemanager/notificatechange?appointment="
                     + (appointment.getIdAppointment().toString());
             url = new URL(path);
             conexion = (HttpURLConnection) url.openConnection();
@@ -609,16 +629,226 @@ public class ConectorScheduleManager {
                 buffer.close();
             }
 
-        } 
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             System.err.println(e);
             e.printStackTrace();
 
-        } 
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             System.err.println(ioe);
             ioe.printStackTrace();
         }
         return result;
+    }
+    
+
+    public boolean setChangeAppointment(Appointment appointment) {
+        Gson gson = new Gson();
+        boolean resultado = false;
+
+        String datosAppointment = gson.toJson(appointment);
+        JSONObject job = (JSONObject) JSONValue.parse(datosAppointment);
+
+        int dia = appointment.getDate().getDia();
+        String day = "";
+        if(dia<10){
+            day = "0"+dia;
+        }else{
+            day = dia+"";
+        }
+        
+        String mes = "";
+        if(appointment.getDate().getMes()<10){
+            mes = "0"+appointment.getDate().getMes();
+        }else{
+            mes = appointment.getDate().getMes()+"";
+        }
+//        job.put("date", appointment.getDate().toFormattedString("YMD"));
+        job.put("date", appointment.getDate().getYear() + "-"
+                + mes + "-"
+                + day + "T00:00:00-05:00");
+
+//        System.err.println("Debug Appointment Gson=" + job.toJSONString());
+        try {
+            String cadena = URL_BASE + "schedulemanager/updatecita?appointment="
+                    + job.toJSONString();
+            
+            System.out.println("Debug Cadena="+cadena);
+            
+            URL url = new URL(cadena);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+//            conexion.getURL();
+            conexion.setRequestProperty("Accept", "text/plain");
+            int codigo = conexion.getResponseCode();
+            
+            System.err.println("codigo upd app="+codigo);
+            
+            if (codigo == HttpURLConnection.HTTP_OK) {
+                
+                InputStream is = conexion.getInputStream();
+                BufferedReader entrada = new BufferedReader(new InputStreamReader(is));
+                String datos = entrada.readLine();
+                entrada.close();
+                resultado = Boolean.parseBoolean(datos);
+            }
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+    
+    public boolean updateAppointment(Appointment appointment) {
+//        boolean result = false;
+
+
+        Map<String, String> appointmentMap = new HashMap<String, String>();
+        appointmentMap.put("idAppointment", appointment.getIdAppointment().toString());
+        appointmentMap.put("time", appointment.getTime());
+        Date date = appointment.getDate();
+        int day = date.getDia();
+        String dia=day+"";
+        if(day<10){
+            dia="0"+day;
+        }
+        int mes = date.getMes();
+        String mesS=mes+"";
+        if(mes<10){
+            mesS="0"+mes;
+        }
+
+        int year = date.getYear();
+
+        appointmentMap.put("date", year+"-"+mesS+"-"+dia+"T00:00:00-05:00");
+
+        if(appointment.getIsFinished() != null){
+            appointmentMap.put("isFinished", appointment.getIsFinished().toString());
+        }
+        if(appointment.getIscanceled() != null){
+            appointmentMap.put("iscanceled", appointment.getIscanceled().toString());
+        }
+
+        Doctor doctorAppointment = appointment.getDoctorUsername();
+        Map<String, String> doctorMap = new HashMap<String, String>();
+        doctorMap.put("username", doctorAppointment.getUsername());
+        doctorMap.put("password", doctorAppointment.getPassword());
+        doctorMap.put("firstName", doctorAppointment.getFirstName());
+        doctorMap.put("lastName", doctorAppointment.getLastName());
+        doctorMap.put("license", doctorAppointment.getLicense());
+
+
+        if(doctorAppointment.getSpecialty() != null){
+            doctorMap.put("specialty", doctorAppointment.getSpecialty());
+        }
+
+        String docJSON = new JSONObject(doctorMap).toJSONString();
+        System.err.println("------Representación de doctor de Appointment: "+docJSON);
+        System.err.println();
+        System.err.println();
+        appointmentMap.put("doctorUsername",docJSON);
+
+        System.err.print("Appointment until now!! --  ");
+        JSONObject appointmentJsonFirst = new JSONObject(appointmentMap);
+
+        String appointmentToScheduleFirst = appointmentJsonFirst.toJSONString();
+        appointmentToScheduleFirst = appointmentToScheduleFirst.replace("\\", "");
+        appointmentToScheduleFirst= appointmentToScheduleFirst.replace("\"{", "{");
+        appointmentToScheduleFirst = appointmentToScheduleFirst.replace("}\"", "}");
+        System.err.println(appointmentToScheduleFirst);
+
+
+
+        Patient patient = appointment.getPatientNss();
+        Map<String, String> patientMap = new HashMap<String, String>();
+        patientMap.put("nss", patient.getNss());
+        patientMap.put("password", patient.getPassword());
+        patientMap.put("firstName", patient.getFirstName());
+        patientMap.put("lastName", patient.getLastName());
+        patientMap.put("address", patient.getAddress());
+        patientMap.put("isActive", patient.getIsActive()+"");
+
+
+        if(patient.getDoctorUsername() != null){
+            Doctor patientDoctor = patient.getDoctorUsername();
+            Map<String, String> patientDoctorMap = new HashMap<String, String>();
+            patientDoctorMap.put("username", patientDoctor.getUsername());
+            patientDoctorMap.put("password", patientDoctor.getPassword());
+            patientDoctorMap.put("firstName", patientDoctor.getFirstName());
+            patientDoctorMap.put("lastName", patientDoctor.getLastName());
+            patientDoctorMap.put("license", patientDoctor.getLicense());
+            if(doctorAppointment.getSpecialty() != null){
+                patientDoctorMap.put("specialty", patientDoctor.getSpecialty());
+            }
+
+
+            String docPatientJSON = new JSONObject(patientDoctorMap).toJSONString();
+            patientMap.put("doctorUsername", docPatientJSON);
+            System.err.println("------Representación de Doctor de Patient: "+docPatientJSON);
+            System.err.println();
+            System.err.println();
+        }
+
+        JSONObject patientJson = new JSONObject(patientMap);
+        String patientToSchedule = patientJson.toJSONString();
+        patientToSchedule = patientToSchedule.replace("\\", "");
+        patientToSchedule= patientToSchedule.replace("\"{", "{");
+        patientToSchedule = patientToSchedule.replace("}\"", "}");
+
+        appointmentMap.put("patientNss", patientToSchedule);
+        System.err.println("------Representación de Patient de Appointment: "+patientToSchedule);
+        System.err.println();
+        System.err.println();
+
+
+
+        JSONObject appointmentJson = new JSONObject(appointmentMap);
+
+        String appointmentToSchedule = appointmentJson.toJSONString();
+
+
+        appointmentToSchedule = patientToSchedule.replace("\\", "");
+        appointmentToSchedule = patientToSchedule.replace("\"{", "{");
+        appointmentToSchedule = patientToSchedule.replace("}\"", "}");
+
+
+        String finalCadena = appointmentToScheduleFirst.substring(0,appointmentToScheduleFirst.length()-1)+","+ "\"patientNss\":{"+appointmentToSchedule.substring(1, appointmentToSchedule.length())+"}";
+        System.err.println("-----------Esta si sería la final --------------------------");
+        System.err.println(finalCadena);
+        byte[] porEnviar = finalCadena.getBytes();
+
+        System.out.println("Appointment Final: "+ "\"patientNss\":{"+appointmentToSchedule.substring(1, appointmentToSchedule.length()));
+
+
+        String cadena = URL_BASE + "appointment/"+appointment.getIdAppointment();
+
+        try {
+            url = new URL(cadena);
+            conexion = (HttpURLConnection) url.openConnection();
+            conexion.setDoOutput(true);
+
+            conexion.setRequestMethod("PUT");
+
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Content-Length", Integer.toString(porEnviar.length));
+            os = conexion.getOutputStream();
+            os.write(porEnviar);
+
+            int codigo = conexion.getResponseCode();
+
+            System.out.println("Codigo recibido " + codigo);
+
+            if (codigo / 100 != 2) {
+
+                System.out.println("Error en Codigo recibido " + codigo);
+                return false;
+            }
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+
+
     }
 }

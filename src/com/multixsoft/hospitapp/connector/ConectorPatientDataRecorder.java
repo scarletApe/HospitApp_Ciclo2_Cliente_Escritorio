@@ -20,6 +20,9 @@ import static com.multixsoft.hospitapp.connector.ConectorServicio.URL_BASE;
 import com.multixsoft.hospitapp.entities.Appointment;
 import com.multixsoft.hospitapp.entities.Report;
 import org.json.simple.JSONValue;
+import com.google.gson.*;
+import com.multixsoft.hospitapp.entities.Patient;
+import com.multixsoft.hospitapp.utilities.Date;
 
 /**
  *
@@ -60,7 +63,7 @@ public class ConectorPatientDataRecorder{
                 respuesta.setDescription(reportJson.get("description").toString());
                 respuesta.setMedicine(reportJson.get("medicine").toString());
                 respuesta.setIndications(reportJson.get("indications").toString());
-                respuesta.setPatientNss(reportJson.get("patientNss").toString());
+                respuesta.setPatientNss(new Gson().fromJson(reportJson.get("patientNss").toString(),Patient.class));
                 respuesta.setIdAppointment((Appointment)reportJson.get("idAppointment"));
                 entrada.close();
             }
@@ -72,24 +75,100 @@ public class ConectorPatientDataRecorder{
         return respuesta;
     }
 
+//    /**
+//     * Este metodo se encarga de guardar el reporte de una cita en la Base de Datos
+//     * envia al servidor el reporte para que posteriormente sea almacenado
+//     * @param r coresponde al reporte a guardar en la base de datos
+//     * @return una variable booleana que indica si el reporte pudo ser guardado con éxito o no
+//     */
+//    public boolean saveHistoryAppointment(Report r){
+//        boolean resultado = false;
+//        Map<String, String> reportMap = new HashMap<String, String>();
+//        reportMap.put("idReport", Long.toString(r.getIdReport()));
+//        reportMap.put("description", r.getDescription());
+//        reportMap.put("medicine", r.getMedicine());
+//        reportMap.put("indications", r.getIndications());
+//        reportMap.put("patientNss", new Gson().toJson(r.getPatientNss()));
+//        reportMap.put("appointment", new Gson().toJson(r.getIdAppointment()));
+//        JSONObject reportJSON = new JSONObject(reportMap);
+//        String datosReporte = reportJSON.toJSONString();
+//        
+//        datosReporte = datosReporte.replace("\\", "");
+//        datosReporte = datosReporte.replace("\"{", "{");
+//        datosReporte = datosReporte.replace("}\"", "}");
+//         datosReporte = datosReporte.replace(" ","%20");
+//        
+//        System.out.println("Debug: datosReporte="+datosReporte);
+//        try{
+//            String cadena = URL_BASE + "patientdatarecorder/savereport?report=" 
+//                    + datosReporte;
+//            URL url = new URL(cadena);
+//            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+//            conexion.getURL();
+//            conexion.setRequestProperty("Accept", "text/plain");
+//            int codigo = conexion.getResponseCode();
+//            if (codigo == HttpURLConnection.HTTP_OK) {
+//                InputStream is = conexion.getInputStream();
+//                BufferedReader entrada = new BufferedReader(new InputStreamReader(is));
+//                String datos = entrada.readLine();
+//                entrada.close();
+//                resultado = Boolean.parseBoolean(datos);
+//            }
+//        }catch(MalformedURLException ex){
+//            ex.printStackTrace();
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//        return resultado;
+//    }
+    
     /**
      * Este metodo se encarga de guardar el reporte de una cita en la Base de Datos
      * envia al servidor el reporte para que posteriormente sea almacenado
      * @param r coresponde al reporte a guardar en la base de datos
-     * @return una variable booleana que indica si el reporte pudo ser guardado con éxito o no
+     * @return una variable booleana que indica si el reporte pudo ser guardado con Èxito o no
      */
     public boolean saveHistoryAppointment(Report r){
         boolean resultado = false;
-        Map<String, String> reportMap = new HashMap<String, String>();
-        reportMap.put("idReport", Long.toString(r.getIdReport()));
-        reportMap.put("description", r.getDescription());
-        reportMap.put("medicine", r.getMedicine());
-        reportMap.put("indications", r.getIndications());
-        reportMap.put("patientNss", r.getPatientNss());
-        reportMap.put("appointment", Long.toString(r.getIdAppointment().getIdAppointment()));
-        JSONObject reportJSON = new JSONObject(reportMap);
-        String datosReporte = reportJSON.toJSONString();
-        System.out.println("Debug: datosReporte="+datosReporte);
+            //
+        Appointment cita = r.getIdAppointment();
+        
+        System.out.println("Cita en savehistory="+cita.getDate().toString());
+        
+        Gson gson = new Gson();
+//            //Hacemos nulo el date en el appointment para generar el JSON
+//        r.getIdAppointment().setDate(null);
+            //Generamos el JSON del appointment
+        String datosAppointment = gson.toJson(cita);
+            //Generamos un objeto JSON para aÒadir el Date
+        JSONObject appointment = (JSONObject) JSONValue.parse(datosAppointment);
+            //AÒadimos la fecha adecuada al appointment
+        Date fe = cita.getDate();
+        if(fe != null){
+        appointment.put("date", fe.toFormattedString("YMD"));
+        }else{
+            System.out.println("Date is null!!!");
+        }
+            //Volvemos a generar el string del JSON
+        datosAppointment = appointment.toJSONString();
+//            //Hacemos el appointment del reporte nulo
+//        r.setIdAppointment(null);
+            //Generamos el JSON del reporte sin Appointment
+        String datosReporte = gson.toJson(r);
+            //Generamos un objeto JSON para agregar el Appointment que generamos en tmp
+        JSONObject objetoReport = (JSONObject) JSONValue.parse(datosReporte);
+            //Agregamos el JSON del appointment con la fecha precisa del Appointment
+        objetoReport.put("idAppointment", datosAppointment);
+            //Eliminamos los espacios en blanco de la cadena JSON del reporte
+//        datosReporte = datosReporte.replace(" ", "%20");
+        datosReporte = objetoReport.toJSONString();
+            //Eliminamos todas las diagonales de la cadena JSON del rewporte
+        datosReporte = datosReporte.replace("\\", "");
+        datosReporte = datosReporte.replace("\"{", "{");
+        datosReporte = datosReporte.replace("}\"", "}");
+        
+        System.err.println(datosReporte);
+            //
         try{
             String cadena = URL_BASE + "patientdatarecorder/savereport?report=" 
                     + datosReporte;

@@ -255,9 +255,10 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
             DefaultComboBoxModel dcmMateria = (DefaultComboBoxModel) jComboBoxHorarios.getModel();
             String hour = (String) dcmMateria.getSelectedItem();
 //            String hour = listSchedule.getItemAtPosition(globalPosition).toString().substring(0, 2);
-            if (hour.endsWith(":")) {
-                hour = hour.substring(0, 1);
-            }
+//            if (hour.endsWith(":")) {
+//                hour = hour.substring(0, 1);
+//            }
+            hour = hour.split(":")[0];
 
             //obtenemos la fecha actual del chooser
             Calendar selectedDate = dateChooserCombo1.getSelectedDate();

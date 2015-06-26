@@ -15,6 +15,7 @@ import com.multixsoft.hospitapp.utilities.IntervalFilter;
 import com.multixsoft.hospitapp.utilities.JPanes;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
 import javax.swing.JButton;
 
 /**
@@ -54,6 +55,13 @@ public class Frame_Horarios extends javax.swing.JFrame {
     private void fillSchedule() {
         ConectorScheduleManager sm = ConectorScheduleManager.getInstance();
         schedule = sm.getAvailableSchedule(doctor, false);
+        
+        if(schedule == null){
+            schedule = new Schedule(new Random().nextLong());
+            schedule.setDoctorUsername(doctor);
+            System.err.println("Error Schedule es null");
+            return;
+        }
 
         String monday = schedule.getMonday();
         String tuesday = schedule.getTuesday();

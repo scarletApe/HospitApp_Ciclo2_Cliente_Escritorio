@@ -49,6 +49,7 @@ public class ConectorPrivacyControl {
 
         byte[] encrypted = encrypt(password.getBytes(), key);
         String s = bytesToString(encrypted);
+        System.err.println("Debug: Contraseña Encryp="+s);
         try {
             URL url;
             HttpURLConnection conexion;

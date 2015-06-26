@@ -47,7 +47,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
         jTextFieldEspecialidad.setDocument(new FixedSizeAlphabeticalDocument(jTextFieldEspecialidad, 100));
 
         jTextFieldUsername.setDocument(new FixedSizeAlphaNumericDocument(jTextFieldUsername, 80));
-        jPasswordField1.setDocument(new FixedSizeAlphaNumericDocument(jPasswordField1, 64));
+        jPasswordField1.setDocument(new FixedSizeAlphaNumericDocument(jPasswordField1, 32));
 
         limpiar();
 
@@ -61,7 +61,9 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
         List<Doctor> doctores = servidor.obtenerListaDoctor();
         DefaultListModel modelo = new DefaultListModel();
         for (Doctor c : doctores) {
-            modelo.addElement(c);
+            if (c.isIsActive()) {
+                modelo.addElement(c);
+            }
         }
         jListDoctores.setModel(modelo);
     }
@@ -72,6 +74,8 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
         jButtonActualizar.setEnabled(false);
         jButtonVerCitas.setEnabled(false);
         jButtonCitasProgramadas.setEnabled(false);
+        jButtonCrear.setEnabled(true);
+        jTextFieldUsername.setEditable(true);
 
         jTextFieldNombre.setText("");
         jTextFieldApellidos.setText("");
@@ -171,7 +175,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
         jToolBar1.add(jButtonActualizar);
 
         jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_delete.png"))); // NOI18N
-        jButtonEliminar.setText("Eliminar");
+        jButtonEliminar.setText("Dar de Baja");
         jButtonEliminar.setFocusable(false);
         jButtonEliminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonEliminar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -448,6 +452,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
 
                     Doctor doctor = new Doctor(username, pass, firstName, lastName, license);
                     doctor.setSpecialty(specialty);
+                    doctor.setIsActive(true);
 
                     ConectorDoctorManager conectorDoctor = ConectorDoctorManager.getInstance();
                     String saveNewDoctor = conectorDoctor.saveNewDoctor(doctor);
@@ -469,7 +474,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                         ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
                         String setSchedule = dm.setSchedule(sch);
                         if (setSchedule != null) {
-                            JPanes.getInstance().msgPane("Se le asigno un Horario vacío al Médico.");
+                            JPanes.getInstance().msgPane("Se le asignó un Horario vacío al Médico.");
                         } else {
                             JPanes.getInstance().errorPane("No se le pudo asignar un Horario al Médico.");
                         }
@@ -593,6 +598,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
 
                 Doctor doctor = new Doctor(selectedDoctor.getUsername(), pass, firstName, lastName, license);
                 doctor.setSpecialty(specialty);
+                doctor.setIsActive(true);
 
                 ConectorServicio conectorServicio = ConectorServicio.getInstance();
                 conectorServicio.updateDoctor(doctor);
@@ -617,15 +623,15 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
             Doctor doc = (Doctor) modelo.getElementAt(indice);
 
             int n = JOptionPane.showConfirmDialog(
-                    null, "¿Esta seguro de eliminar a " + doc.toString() + " ?", "Confirmación",
+                    null, "¿Esta seguro de dar de baja a " + doc.toString() + " ?", "Confirmación",
                     JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) {
                 ConectorDoctorManager dm = ConectorDoctorManager.getInstance();
                 boolean deleted = dm.deleteDoctor(doc);
                 if (deleted) {
-                    JPanes.getInstance().msgPane("El Médico se elimino con exito.");
+                    JPanes.getInstance().msgPane("El Médico se dio de baja con éxito.");
                 } else {
-                    JPanes.getInstance().errorPane("El Médico no se pudo eliminar");
+                    JPanes.getInstance().errorPane("El Médico no se pudo dar de baja");
                 }
             } else if (n == JOptionPane.NO_OPTION) {
                 //JOptionPane.showMessageDialog(null, "Continueando...");
@@ -633,6 +639,8 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                 //JOptionPane.showMessageDialog(null, "Continueando...");
             }
 
+            limpiar();
+            actualizarListDoctores();
         }
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
@@ -719,6 +727,8 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                     jButtonActualizar.setEnabled(false);
                     jButtonVerCitas.setEnabled(false);
                     jButtonCitasProgramadas.setEnabled(false);
+                    jButtonCrear.setEnabled(true);
+                    jTextFieldUsername.setEditable(true);
                 } else {
                     limpiar();
                     jButtonEliminar.setEnabled(true);
@@ -726,6 +736,8 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
                     jButtonActualizar.setEnabled(true);
                     jButtonVerCitas.setEnabled(true);
                     jButtonCitasProgramadas.setEnabled(true);
+                    jButtonCrear.setEnabled(false);
+                    jTextFieldUsername.setEditable(false);
 
                     ListModel modelo = jListDoctores.getModel();
                     Doctor cSel = (Doctor) modelo.getElementAt(indice);

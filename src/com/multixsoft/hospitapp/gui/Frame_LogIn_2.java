@@ -170,7 +170,8 @@ class MainContainer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String username = usrNameFeild.getText();
                 String pass = new String(jPasswordField.getPassword());
-                String ip = "192.168.137.1";//jTextFieldIPServidor.getText();
+                String ip ;//= "192.168.137.1";//jTextFieldIPServidor.getText();
+                ip = "192.168.0.19";
 
                 if (username != null && pass != null && ip != null) {
                     if (!username.isEmpty() && !pass.isEmpty() && !ip.isEmpty()) {
