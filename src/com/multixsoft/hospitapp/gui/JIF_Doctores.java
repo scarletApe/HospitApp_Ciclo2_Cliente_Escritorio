@@ -254,7 +254,7 @@ public class JIF_Doctores extends javax.swing.JInternalFrame {
 
         jLabel_Error_Apellido.setText(" ");
 
-        jLabel5.setText("Licencia:");
+        jLabel5.setText("Cedula:");
 
         jLabel_Error_Licencia.setText(" ");
 

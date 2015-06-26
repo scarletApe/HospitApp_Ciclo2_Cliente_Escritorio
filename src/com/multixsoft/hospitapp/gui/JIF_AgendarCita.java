@@ -266,7 +266,10 @@ public class JIF_AgendarCita extends javax.swing.JInternalFrame {
             //la fecha sacamos sus componentes
 //                int sYear = selectedDate.get(Calendar.YEAR);
             int sMonth = selectedDate.get(Calendar.MONTH);
+//            sMonth--;
             int sDay = selectedDate.get(Calendar.DAY_OF_MONTH);
+            
+            System.out.println("day="+sDay+" mes="+sMonth);
 
             Long answer = agendarCita(new String[]{hour, sDay + "", sMonth + ""}, cSel);
 

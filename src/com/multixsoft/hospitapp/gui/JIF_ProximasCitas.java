@@ -109,12 +109,19 @@ public class JIF_ProximasCitas extends javax.swing.JInternalFrame {
         int i = 0;
         if (sizeListaCitas != 0) {
             for (Appointment appointment : listaCitas) {
-                tempJTable[i][0] = appointment.getIdAppointment();
-                tempJTable[i][1] = appointment.getPatientNss().getNss();
-                tempJTable[i][2] = appointment.getPatientNss().getFirstName();
-                tempJTable[i][3] = appointment.getPatientNss().getLastName();
-                tempJTable[i][4] = appointment.getDate();
-                i++;
+                if (!appointment.getIscanceled()) {
+                    if(!appointment.getIsFinished()){
+                        System.out.println("cita= " + appointment.getIdAppointment());
+                        System.out.println("finished= " + appointment.getIsFinished());
+                        System.out.println("canceled= " + appointment.getIscanceled());
+                        tempJTable[i][0] = appointment.getIdAppointment();
+                        tempJTable[i][1] = appointment.getPatientNss().getNss();
+                        tempJTable[i][2] = appointment.getPatientNss().getFirstName();
+                        tempJTable[i][3] = appointment.getPatientNss().getLastName();
+                        tempJTable[i][4] = appointment.getDate();
+                        i++;
+                    }
+                }
             }
         }
 

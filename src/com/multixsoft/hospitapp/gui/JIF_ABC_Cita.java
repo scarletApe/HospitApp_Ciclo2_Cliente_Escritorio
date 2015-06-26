@@ -382,7 +382,8 @@ public class JIF_ABC_Cita extends javax.swing.JInternalFrame {
 
                     Date date = cSel.getDate();
                     Calendar cal = Calendar.getInstance();
-                    cal.set(date.getYear(), date.getMes(), date.getDia());
+                    cal.set(date.getYear(), date.getMes()-1, date.getDia());
+                    System.out.println("calendar="+cal.getTime().toString());
                     dateChooserCombo1.setSelectedDate(cal);
                 }
             }

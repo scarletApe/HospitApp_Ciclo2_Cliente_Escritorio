@@ -102,6 +102,7 @@
         <Component class="javax.swing.JButton" name="jButton_VerHistorial">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ver Historial"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_VerHistorialActionPerformed"/>
@@ -161,6 +162,9 @@
             <Property name="text" type="java.lang.String" value="Finalizar Cita"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonTerminarCitaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

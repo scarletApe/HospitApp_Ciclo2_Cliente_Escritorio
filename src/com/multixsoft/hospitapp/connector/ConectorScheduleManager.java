@@ -399,11 +399,12 @@ public class ConectorScheduleManager {
                     appointment.setIdAppointment(Long.parseLong(appointmentJson.get(
                             "idAppointment").toString()));
 
-                    appointment.setIscanceled(Boolean.getBoolean(appointmentJson.get(
-                            "iscanceled").toString()));
-
-                    appointment.setIsFinished(Boolean.getBoolean(appointmentJson.get(
-                            "isFinished").toString()));
+                    appointment.setIscanceled((boolean)appointmentJson.get(
+                            "iscanceled"));
+                    
+                    appointment.setIsFinished((boolean)appointmentJson.get(
+                          "isFinished"));
+                   
 
                     appointment.setPatientNss((patientFromJson((JSONObject) appointmentJson
                             .get("patientNss"))));

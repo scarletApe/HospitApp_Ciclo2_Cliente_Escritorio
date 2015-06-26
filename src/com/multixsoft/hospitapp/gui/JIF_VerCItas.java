@@ -33,9 +33,9 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
     private ConectorScheduleManager con;
     private ConectorServicio conectorServicio;
     private JDesktopPane papaPane;
+    private Doctor doctor;
 
     // private GUIDoctorHospitApp hospitapp;
-
     /**
      * Creates new form JInternalFrameVerCItas
      */
@@ -49,7 +49,6 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
      GUIDoctorHospitApp.jDesktopPane1.add(historial);
      cargarDatosTabla();
      }*/
-
     /**
      * Creates new form JInternalFrameVerCItas
      *
@@ -63,6 +62,7 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
         jButtonTerminarCita.addActionListener(new JIF_VerCItas.ManejadorBotonesCitas());
         jTable1.getSelectionModel().addListSelectionListener(new JIF_VerCItas.ManejadorTabla());
 
+        this.doctor = doctor;
         this.papaPane = papaPane;
         papaPane.add(historial);
         cargarDatosTabla(doctor);
@@ -83,12 +83,16 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
         int i = 0;
         if (sizeListaCitas != 0) {
             for (Appointment appointment : listaCitas) {
-                tempJTable[i][0] = appointment.getIdAppointment();
-                tempJTable[i][1] = appointment.getPatientNss();
-                tempJTable[i][2] = appointment.getPatientNss().getFirstName();
-                tempJTable[i][3] = appointment.getPatientNss().getLastName();
-                tempJTable[i][4] = appointment.getDate();
-                i++;
+                if (!appointment.getIscanceled()) {
+                    if (!appointment.getIsFinished()) {
+                        tempJTable[i][0] = appointment.getIdAppointment();
+                        tempJTable[i][1] = appointment.getPatientNss();
+                        tempJTable[i][2] = appointment.getPatientNss().getFirstName();
+                        tempJTable[i][3] = appointment.getPatientNss().getLastName();
+                        tempJTable[i][4] = appointment.getDate();
+                        i++;
+                    }
+                }
             }
         }
 
@@ -130,6 +134,7 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
                 } else {
                     System.out.println("Por favor selecciona el paciente atendido.");
                 }
+                cargarDatosTabla(doctor);
             }
         }
     }
@@ -172,7 +177,7 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
 
             DefaultTableModel tableModel = new DefaultTableModel(tempJTable, titulosColumnas);
             jTable1.setModel(tableModel);
-       //  sorter = new TableRowSorter<TableModel>(tableModel);
+            //  sorter = new TableRowSorter<TableModel>(tableModel);
             //jTable1.setRowSorter(sorter);
             jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -212,6 +217,7 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Pacientes"));
 
         jButton_VerHistorial.setText("Ver Historial");
+        jButton_VerHistorial.setEnabled(false);
         jButton_VerHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_VerHistorialActionPerformed(evt);
@@ -234,6 +240,11 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
 
         jButtonTerminarCita.setText("Finalizar Cita");
         jButtonTerminarCita.setEnabled(false);
+        jButtonTerminarCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTerminarCitaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -284,6 +295,10 @@ public class JIF_VerCItas extends javax.swing.JInternalFrame {
     private void jButton_VerHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_VerHistorialActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_VerHistorialActionPerformed
+
+    private void jButtonTerminarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTerminarCitaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonTerminarCitaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

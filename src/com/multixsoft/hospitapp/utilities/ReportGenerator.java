@@ -114,8 +114,9 @@ public class ReportGenerator {
             reporte.add(parrafo);
             parrafo = new Paragraph("Generado por HospitApp el " + 
                     formatter.format(Calendar.getInstance().getTime()) + " a las "
-                    + formatter.format(Calendar.getInstance().getTime().getHours()
-                    + ":" + formatter.format(Calendar.getInstance().getTime().getMinutes())));
+                    + Calendar.getInstance().getTime().getHours()
+                    + ":" + Calendar.getInstance().getTime().getMinutes());
+            reporte.add(parrafo);
             reporte.close();
             resultado = true;
         }catch(DocumentException de){

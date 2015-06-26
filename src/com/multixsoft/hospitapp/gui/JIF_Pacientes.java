@@ -82,6 +82,8 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
 //        jButtonEliminarPaciente.setEnabled(false);
         jButtonModificarPaciente.setEnabled(false);
         jButtonGuardarPaciente.setEnabled(true);
+        
+        jTextFieldNSS.setEditable(true);
 
 //        jLabelErrorMsg.setText(" ");
         jLabel_Error_Nombre.setText(" ");
@@ -508,10 +510,12 @@ public class JIF_Pacientes extends javax.swing.JInternalFrame {
 //                    jButtonEliminarPaciente.setEnabled(false);
                     jButtonModificarPaciente.setEnabled(false);
                     jButtonGuardarPaciente.setEnabled(true);
+                    jTextFieldNSS.setEditable(true);
                 } else {
 //                    jButtonEliminarPaciente.setEnabled(true);
                     jButtonModificarPaciente.setEnabled(true);
                     jButtonGuardarPaciente.setEnabled(false);
+                    jTextFieldNSS.setEditable(false);
 
                     ListModel modelo = jListPacientes.getModel();
                     Patient cSel = (Patient) modelo.getElementAt(indice);

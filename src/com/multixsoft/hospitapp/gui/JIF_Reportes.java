@@ -36,8 +36,9 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
         this.setName("reportes");
         this.setTitle("Reporte de la Cita: "+cita.toString());
         
-        jButtonCrear.setEnabled(true);
-        jButtonPDF.setEnabled(false);
+//        jButtonCrear.setEnabled(true);
+//        jButtonPDF.setEnabled(false);
+        jButtonCrear.setVisible(false);
         
          idReportPlusOne = ConectorPatientDataRecorder.getInstance().getIdReportPlusOne();
         jTextFieldReportID.setText(idReportPlusOne+"");
@@ -105,6 +106,7 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
 
         jButtonCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/multixsoft/hospitapp/imagenes/ic_create.png"))); // NOI18N
         jButtonCrear.setText("Crear");
+        jButtonCrear.setEnabled(false);
         jButtonCrear.setFocusable(false);
         jButtonCrear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButtonCrear.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -253,11 +255,25 @@ public class JIF_Reportes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldMedicinaActionPerformed
 
     private void jButtonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPDFActionPerformed
+        String descripcion = jTextAreaDescripcion.getText();
+        String medicina = jTextFieldMedicina.getText();
+        String indicaciones = jTextAreaIndicaciones.getText();
+        
+        System.err.println("Debug Cita en JIFRepo:"+cita.getDate().toString());
+        
+        report = new Report(idReportPlusOne);
+        report.setDescription(descripcion);
+        report.setMedicine(medicina);
+        report.setIndications(indicaciones);
+        report.setIdAppointment(cita);
+        report.setPatientNss(cita.getPatientNss());
+        
+        
         JFrame f = null;
         FileDialog dialogo = new FileDialog(f,
                 "Save?",
                 FileDialog.SAVE);
-        dialogo.setFile(".pdf"); //Filtro de archivos
+        dialogo.setFile(cita.getPatientNss().getFirstName()+"_"+cita.getIdAppointment()+".pdf"); //Filtro de archivos
         dialogo.setDirectory("."); //Directorio actual
         dialogo.setVisible(true); //Muestra el cuadro de dialogo
         String directory = dialogo.getDirectory();//Obtenemos el directorio
